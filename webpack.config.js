@@ -1,11 +1,20 @@
 const path = require('path');
 const HtmlPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
+
+const resolve = (relativePath) => path.resolve(__dirname, relativePath);
 
 module.exports = {
   entry:'./src/index.js',
   output:{
-    path: path.resolve(__dirname, './dist'),
+    path: resolve('./dist'),
     filename: 'hue_bundle.js'
+  },
+  devServer:{
+    contentBase: resolve('dist'),
+    compress: true,
+    hot: true,
+    port: 8976
   },
   module: {
     rules: [
@@ -21,6 +30,7 @@ module.exports = {
   plugins: [
     new HtmlPlugin({
       template: './src/index.html'
-    })
+    }),
+    new webpack.HotModuleReplacementPlugin()
   ]
 }
