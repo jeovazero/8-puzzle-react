@@ -1,14 +1,17 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import Square from "./Squares/Square";
 import styled from "styled-components";
 
-const Hue = styled.div`
-  border: 2px solid tomato;
-  padding: 10px 20px;
-  background-color: #e30372;
-  color: white;
-  font-weight: bolder;
-  font-family: sans-serif;
+const Box = ({className}) => (
+  <div className={className} >
+    <Square> 5 </Square>
+  </div>
+);
+
+const BoxStyled = styled(Box)`
+  width: 200px;
+  height: 200px;
 `;
 
-ReactDOM.render(<Hue>HUE HUE beauty!</Hue>, document.getElementById("hue"));
+ReactDOM.render(<BoxStyled />, document.getElementById("hue"));
