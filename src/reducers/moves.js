@@ -1,7 +1,15 @@
 import {MOVE} from "../constants/actionTypes";
 
+const grid = [1, 2, 3, 4, 5, 0, 7, 8, 6].map((digit, i) => {
+  return {
+    digit,
+    x: Math.trunc(i / 3),
+    y: Math.trunc(i % 3)
+  }
+})
+
 const initialState = {
-  grid: [[1,2,3], [4,5,0], [7,8, 6]],
+  grid,
   pos_blank: {x: 2, y: 1}
 }
 

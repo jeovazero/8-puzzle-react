@@ -1,17 +1,24 @@
 import {MOVE} from '../constants/actionTypes';
 
-export function goLeft(){
+function goLeft(){
   return { type: MOVE.LEFT }
 }
 
-export function goRight(){
+function goRight(){
   return { type: MOVE.RIGHT }
 }
 
-export function goUp(){
+function goUp(){
   return { type: MOVE.UP }
 }
 
-export function goDown(){
+function goDown(){
   return { type: MOVE.DOWN }
 }
+
+export default {
+  goLeft,
+  goRight,
+  goUp,
+  goDown
+};
