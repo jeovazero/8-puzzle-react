@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import React from "react";
 
+
 const Square = ({children, className}) => (
   <div className={className}> 
     <span>{ children || '-' }</span>
