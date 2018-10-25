@@ -20,16 +20,16 @@ class App extends React.Component{
   keyHandle(event){
     switch(event.keyCode){
       case CODE_KEY.LEFT:
-        store.dispatch(this.goLeft);
+        this.props.goLeft();
         break;
       case CODE_KEY.UP:
-        store.dispatch(this.goUp);
+        this.props.goUp();
         break;
       case CODE_KEY.RIGHT:
-        store.dispatch(this.goRight);
+        this.props.goRight();
         break;
       case CODE_KEY.DOWN:
-        store.dispatch(this.goDown);
+        this.props.goDown();
         break;
       default: console.log('X')
     }
@@ -54,10 +54,10 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  goLeft: () => dispatch(moves.goLeft),
-  goRight: () => dispatch(moves.goRight),
-  goDown: () => dispatch(moves.goDown),
-  goUp: () => dispatch(moves.goUp)
+  goLeft: () => dispatch(moves.goLeft()),
+  goRight: () => dispatch(moves.goRight()),
+  goDown: () => dispatch(moves.goDown()),
+  goUp: () => dispatch(moves.goUp())
 })
 
 const _App = connect(
