@@ -1,14 +1,28 @@
 import styled from "styled-components";
 import React from "react";
+import posed from "react-pose";
 
-
-const Square = ({children, className}) => (
-  <div className={className}> 
+const Square = ({children, className, hostRef}) => (
+  <div className={className} ref={hostRef}>
     <span>{ children || '-' }</span>
   </div>
 );
 
-const SquareStyled = styled(Square)`
+const PoseSquare = posed(Square)({
+    h: { 
+      x: ({x}) => x,
+      transition: {duration: 400,
+      ease: 'linear'}
+    },
+    v: {
+      y: ({y}) => y,
+      transition: {
+      duration: 400,
+      ease: 'linear'}
+    }
+})
+
+const SquareStyled = styled(PoseSquare)`
   width: 100px;
   height: 100px;
   box-sizing: border-box;
@@ -16,6 +30,7 @@ const SquareStyled = styled(Square)`
   padding: 10px;
   background-color: #e30372;
   color: white;
+  opacity: ${props => props.transparent ? 0 : 1};
   text-align: center;
   font-weight: bolder;
   font-family: 'Viga', sans-serif;
