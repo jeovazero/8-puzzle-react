@@ -6,7 +6,7 @@
   "author": "jeovazero",
   "license": "MIT",
   "scripts": {
-    "start": "webpack-dev-server --progress --mode development",
+    "start": "webpack-dev-server --progress --mode development --open",
     "prod": "webpack --mode production"
   },
   "devDependencies": {
@@ -24,7 +24,6 @@
   "dependencies": {
     "react": "^16.6.0",
     "react-dom": "^16.6.0",
-    "react-pose": "^3.3.7",
     "react-redux": "^5.0.7",
     "redux": "^4.0.1"
   }

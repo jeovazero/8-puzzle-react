@@ -1,19 +1,19 @@
-import {MOVE} from '../constants/actionTypes';
+import {SET_MOVE} from '../constants/actionTypes';
 
 function goLeft(){
-  return { type: MOVE.LEFT }
+  return { type: SET_MOVE.LEFT }
 }
 
 function goRight(){
-  return { type: MOVE.RIGHT }
+  return { type: SET_MOVE.RIGHT }
 }
 
 function goUp(){
-  return { type: MOVE.UP }
+  return { type: SET_MOVE.UP }
 }
 
 function goDown(){
-  return { type: MOVE.DOWN }
+  return { type: SET_MOVE.DOWN }
 }
 
 export default {

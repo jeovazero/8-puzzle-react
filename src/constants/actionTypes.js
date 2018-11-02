@@ -1,6 +1,13 @@
-export const MOVE = {
+export const SET_MOVE = {
   LEFT: 'LEFT',
   RIGHT: 'RIGHT',
   UP: 'UP',
   DOWN: 'DOWN',
+};
+
+export const TRANSITION = {
+  LEFT: 'TRANSITION_LEFT',
+  RIGHT: 'TRANSITION_RIGHT',
+  UP: 'TRANSITION_UP',
+  DOWN: 'TRANSITION_DOWN'
 }

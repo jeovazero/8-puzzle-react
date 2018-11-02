@@ -1,4 +1,4 @@
-import {MOVE} from "../constants/actionTypes";
+import {SET_MOVE} from "../constants/actionTypes";
 const WIDTH_GRID = 3;
 
 const SHIFT = {
@@ -22,14 +22,17 @@ const initialState = {
   pos_blank: {x: 2, y: 1}
 }
 
-const InValidInterval = (k) =>
+const isValidInterval = (k) =>
   k <= (WIDTH_GRID - 1) && k >= 0;
 
-const IsValidMove = ({x, y},{xi, yi}) =>
-  InValidInterval(xi + x) && InValidInterval(yi + y);
+const isValidMove = ({x, y},{xi, yi}) =>
+  isValidInterval(xi + x) && isValidInterval(yi + y);
 
 const resolve = ({move, state}) =>
-  IsValidMove({x: move.x, y: move.y}, {xi: state.pos_blank.x, yi: state.pos_blank.y})
+  isValidMove(
+    { x: move.x, y: move.y }, 
+    { xi: state.pos_blank.x, yi: state.pos_blank.y }
+  )
   ? transform(state.grid, state.pos_blank, move)
   : state;
 
@@ -82,16 +85,16 @@ const transform = (_grid, blank_pos, move) => {
 // SHIFT is inverse of MOVE
 export default function move(state = initialState, action){
   switch(action.type){
-    case MOVE.LEFT: 
+    case SET_MOVE.LEFT: 
       return resolve({move:SHIFT.RIGHT, state});
 
-    case MOVE.RIGHT:
+    case SET_MOVE.RIGHT:
       return resolve({move:SHIFT.LEFT, state});
       
-    case MOVE.UP: 
+    case SET_MOVE.UP: 
       return resolve({move:SHIFT.DOWN, state});
 
-    case MOVE.DOWN:
+    case SET_MOVE.DOWN:
       return resolve({move:SHIFT.UP, state});
 
     default: return state;
