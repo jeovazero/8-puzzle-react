@@ -4,6 +4,7 @@ import Square from "../Squares/Square";
 import styled from "styled-components";
 import { connect } from "react-redux";
 import {AESTRELA, State} from "../../search/ia_lib";
+import GridSquares from "../Squares/GridSquares";
 
 const CODE_KEY = {
   LEFT: 37,
@@ -39,6 +40,7 @@ class App extends React.Component{
     console.log(props)
   }
   resolveCode(code){
+    console.log(this.props.grid)
     switch(code){
       case CODE_KEY.LEFT:
       case CODE_KEY.A:
@@ -72,7 +74,7 @@ class App extends React.Component{
     const exec = setInterval(function(){
       that.resolveCode(validMoves[i++]);
       if(i == validMoves.length) clearInterval(exec);
-    }, 1000);
+    }, 500);
   }
   keyHandle(event){
     const code = event.keyCode != 0 ? event.keyCode : event.charCode;
@@ -85,31 +87,23 @@ class App extends React.Component{
     document.addEventListener("keypress", this.keyHandle)
   }
   render(){
-    return <div className={this.props.className} >
-      { 
-        this.props.grid.map( ({digit, x, y, animate='none'}) => 
-          <Square 
-            key={digit}
-            transparent={digit == 0}
-            pose={ 'none'}
-            x={x * 100}
-            y={y * 100}>{ digit }</Square>
-        )
-      }
-    </div>
+    return (
+      <div className={this.props.className} >
+        <GridSquares grid={this.props.grid} />
+      </div>
+    );
   }
 };
 
 const mapStateToProps = (state) => ({
-  grid: state.moves.grid,
-  pos_blank: state.moves.pos_blank
+  grid: state.moves.grid
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  goLeft: () => dispatch(moves.goLeft()),
-  goRight: () => dispatch(moves.goRight()),
-  goDown: () => dispatch(moves.goDown()),
-  goUp: () => dispatch(moves.goUp())
+  goLeft: () => dispatch(moves.goleft()),
+  goRight: () => dispatch(moves.goright()),
+  goDown: () => dispatch(moves.godown()),
+  goUp: () => dispatch(moves.goup())
 })
 
 const _App = connect(
@@ -118,11 +112,9 @@ const _App = connect(
 )(App);
 
 const AppStyled = styled(_App)`
-  width: 300px;
-  padding: 20px;
-  div{
-    float:left;
-  }
+  display: flex;
+  border: 1px dashed lightpink;
+  justify-content: center;
 `;
 
 export default AppStyled;

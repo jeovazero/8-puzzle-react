@@ -1,13 +1,3 @@
-export const SET_MOVE = {
-  LEFT: 'LEFT',
-  RIGHT: 'RIGHT',
-  UP: 'UP',
-  DOWN: 'DOWN',
-};
-
-export const TRANSITION = {
-  LEFT: 'TRANSITION_LEFT',
-  RIGHT: 'TRANSITION_RIGHT',
-  UP: 'TRANSITION_UP',
-  DOWN: 'TRANSITION_DOWN'
-}
+export const SET_MOVE = 'SET_MOVE';
+export const MAKE_ANIMATION = 'MAKE_ANIMATION';
+export const VERIFY_MOVE = 'VERIFY_MOVE';

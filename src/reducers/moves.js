@@ -1,102 +1,85 @@
-import {SET_MOVE} from "../constants/actionTypes";
-const WIDTH_GRID = 3;
-
-const SHIFT = {
-  LEFT: {x: -1, y: 0},
-  RIGHT: {x: 1, y: 0},
-  UP: {x: 0, y: -1},
-  DOWN: {x: 0, y: 1}
-}
+import { MAKE_ANIMATION, SET_MOVE, VERIFY_MOVE } from '../constants/actionTypes';
+import { sumCoordinates, isValidMove, aliasShift } from './_utils';
 
 const grid = [1, 2, 3, 4, 5, 0, 7, 8, 6].map((digit, i) => {
   return {
     digit,
     x: Math.trunc(i / 3),
     y: Math.trunc(i % 3),
-    animate: 'none'
+    keyframe: 'none'
   }
 })
 
 const initialState = {
   grid,
-  pos_blank: {x: 2, y: 1}
+  blankPosition: { x: 2, y: 1 },
+  targetPosition: { x: 2, y: 1 },
+  targetDigit: 0,
+  isRunning: false,
+  canAnimate: false
 }
 
-const isValidInterval = (k) =>
-  k <= (WIDTH_GRID - 1) && k >= 0;
-
-const isValidMove = ({x, y},{xi, yi}) =>
-  isValidInterval(xi + x) && isValidInterval(yi + y);
-
-const resolve = ({move, state}) =>
-  isValidMove(
-    { x: move.x, y: move.y }, 
-    { xi: state.pos_blank.x, yi: state.pos_blank.y }
-  )
-  ? transform(state.grid, state.pos_blank, move)
-  : state;
-
-const getLinearIndex = ({x, y}) => WIDTH_GRID * y + x;
-
-const swapDigits = (grid, target, blank) => {
-  return grid.map(item => {
-    const { digit } = item;
-    switch(digit){
-      case target.digit:
-        return {
-          ...blank.pos,
-          digit: blank.digit,
-          animate: blank.animate
-        };
-      case blank.digit:
-        return {
-          ...target.pos,
-          digit: target.digit,
-          animate: target.animate
-        };
-      default: return item;
-    }
-  });
-}
-
-const transform = (_grid, blank_pos, move) => {
-  const target_pos = {
-    x: blank_pos.x + move.x,
-    y: blank_pos.y + move.y
-  };
-
-  const target_digit = _grid[getLinearIndex(target_pos)].digit;
-  const blank_digit = _grid[getLinearIndex(blank_pos)].digit;
-
-  const animate = move.x != 0 ? 'h' : 'v'; 
-
-  const grid = swapDigits(
-    _grid, 
-    {digit: target_digit, pos: target_pos, animate}, 
-    {digit: blank_digit, pos: blank_pos, animate}
+// returns, digit of target, position of target
+const makeAnimation = ({grid, targetDigit}, shift ) => {
+  const neoGrid = grid.map(
+    (attr) => ({
+      ...attr,
+      keyframe: aliasShift(attr.digit, shift, targetDigit) 
+    })
   );
 
+  return   {
+    grid: neoGrid,
+    isRunning: true,
+    canAnimate: false
+  };
+}
+
+const resolveSetMove = (state) => {
+  const oldGrid = state.grid;
+  const {targetDigit} = state;
+  const resolveDigit = (digit) =>
+    digit == 0 ? targetDigit :
+    digit == targetDigit ? 0 :
+    digit;
+  const grid = oldGrid.map((attr) => {
+    return { ...attr, digit: resolveDigit(attr.digit), keyframe: 'none' }
+  });
   return {
     grid,
-    pos_blank: target_pos
+    blankPosition: state.targetPosition,
+    isRunning: false,
+    canAnimate: false
   }
 }
 
-// SHIFT is inverse of MOVE
-export default function move(state = initialState, action){
+const verifyMove = ({blankPosition, grid}, shift) => {
+  const nextPosition = sumCoordinates(blankPosition, shift);
+  
+  const [targetPosition, canAnimate] = 
+    isValidMove(nextPosition)
+    ? [nextPosition, true]
+    : [blankPosition, false];
+  
+  const targetDigit = grid[targetPosition.y * 3 + targetPosition.x].digit;
+
+  return   {
+    targetPosition,
+    targetDigit,
+    canAnimate,
+    isRunning: false
+  };
+}
+
+
+export default function moves(state = initialState, action){
   switch(action.type){
-    case SET_MOVE.LEFT: 
-      return resolve({move:SHIFT.RIGHT, state});
-
-    case SET_MOVE.RIGHT:
-      return resolve({move:SHIFT.LEFT, state});
-      
-    case SET_MOVE.UP: 
-      return resolve({move:SHIFT.DOWN, state});
-
-    case SET_MOVE.DOWN:
-      return resolve({move:SHIFT.UP, state});
-
+    case VERIFY_MOVE:
+      return {...state, ...verifyMove(state, action.shift)}
+    case MAKE_ANIMATION:
+      return {...state, ...makeAnimation(state, action.shift) };
+    case SET_MOVE:
+      return {...state, ...resolveSetMove(state) }
     default: return state;
   }
 }
