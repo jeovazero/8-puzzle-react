@@ -24,8 +24,19 @@ module.exports = {
         use:{
           loader: "babel-loader"
         }
+      },
+      {
+        test: /\.svg|\.png$/,
+        use: {
+          loader: "file-loader"
+        }
       }
     ]
+  },
+  resolve: {
+    alias: {
+      '@': resolve('./src')
+    }
   },
   plugins: [
     new HtmlPlugin({
