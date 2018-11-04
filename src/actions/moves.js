@@ -29,7 +29,7 @@ function go(shift){
         dispatch(makeAnimation(shift));
         setTimeout(() => {
           dispatch(setMove());
-        }, 249);
+        }, 240);
       }
     }
   }

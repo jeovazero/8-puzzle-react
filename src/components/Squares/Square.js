@@ -3,25 +3,24 @@ import React from "react";
 import { STYLE } from "@/styles.js";
 
 const makeKeyframesMove = (dir, shift) => `
-  0%{ ${dir == 'h' ? 'left' : 'top'}: 0%; }
-  70%{ transform: scale(1.05); background-color: #aaa;}
-  100%{ ${dir == 'h' ? 'left' : 'top'}: ${shift}; }
+  0%{ transform: translate${dir}(0px); }  
+  100%{ transform: translate${dir}(${shift}px); }
 `;
 
 const moveLeft = keyframes`
-  ${makeKeyframesMove('h', '100px')}
+  ${makeKeyframesMove('X', 100)}
 `;
 
 const moveRight = keyframes`
-  ${makeKeyframesMove('h', '-100px')}
+  ${makeKeyframesMove('X', -100)}
 `;
 
 const moveUp = keyframes`
-  ${makeKeyframesMove('v', '100px')}
+  ${makeKeyframesMove('Y', 100)}
 `; 
 
 const moveDown = keyframes`
-  ${makeKeyframesMove('v', '-100px')}
+  ${makeKeyframesMove('Y', -100)}
 `; 
 
 const Square = ({children, className, hostRef}) => (
@@ -41,7 +40,6 @@ const SquareStyled = styled(Square)`
   animation: ${props =>  mapMove(props.animate)} 0.25s cubic-bezier(0.19, 1, 0.22, 1);
   width: 90px;
   height: 90px;
-  position: relative;
   box-sizing: border-box;
   margin: 5px;
   background-color: white;
@@ -52,6 +50,7 @@ const SquareStyled = styled(Square)`
   font-family: 'Viga', sans-serif;
   font-size: 4em;
   border-radius: 10%;
+  position: relative;
   span{
     height: 90px;
     line-height: 90 px;

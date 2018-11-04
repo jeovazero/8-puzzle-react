@@ -24,7 +24,7 @@ const GridSquares = styled(Grid)`
   border-radius: 10px;
   background-color: ${STYLE.primaryColor};
   div{
-    float:left;
+    float: left;
   }
 `;
 

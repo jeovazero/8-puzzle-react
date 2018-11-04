@@ -44,7 +44,7 @@ class App extends React.Component{
     console.log(props)
   }
   resolveCode(code){
-    console.log(this.props.grid)
+    // console.log(this.props.grid)
     switch(code){
       case CODE_KEY.LEFT:
       case CODE_KEY.A:
@@ -78,7 +78,7 @@ class App extends React.Component{
     const exec = setInterval(function(){
       that.resolveCode(validMoves[i++]);
     
-    }, 300);
+    }, 260);
   }
   keyHandle(event){
     const code = event.keyCode != 0 ? event.keyCode : event.charCode;
@@ -121,11 +121,13 @@ const _App = connect(
 )(App);
 
 const AppStyled = styled(_App)`
+  margin: auto;
+  width: 400px;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  align-content: center;
   flex-direction: column;
+  align-items: center;
 `;
 
 const Title = ({className, img, text}) => (
@@ -137,18 +139,17 @@ const Title = ({className, img, text}) => (
 
 const StyledTitle = styled(Title)`
   img{
-    width: 90%;
+    width: 250px;
   }
   span{
+    display: block;
     height: 2em;
     margin: 10px 0 5px;
     color: white;
     font-family: ${ STYLE.fontFamily }, sans-serif;
   }
+  text-align: center;
   margin: 20px 0 10px;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
 `;
 
 const ButtonSet = styled.div`
