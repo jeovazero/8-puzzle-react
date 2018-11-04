@@ -4,14 +4,15 @@ import thunk from "redux-thunk";
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import rootReducer from "./reducers";
-import App from "./components/App/App";
+import App from "./views/App/App";
 import {createGlobalStyle} from "styled-components";
+import { STYLE } from "./styles";
 
 const GlobalStyle = createGlobalStyle`
   body{
     margin: 0;
     padding: 0;
-    background-color: #695987;
+    background-color: ${STYLE.bg};
   }
 `;
 

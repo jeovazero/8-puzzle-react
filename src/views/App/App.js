@@ -1,10 +1,14 @@
 import React from "react";
 import moves from "../../actions/moves";
-import Square from "../Squares/Square";
 import styled from "styled-components";
 import { connect } from "react-redux";
 import {AESTRELA, State} from "../../search/ia_lib";
-import GridSquares from "../Squares/GridSquares";
+import GridSquares from "@/components/Squares/GridSquares";
+import Button from "@/components/Button/Button";
+import playIcon from "@/assets/icons/play.svg";
+import resetIcon from "@/assets/icons/reset.svg";
+import titleImg from "@/assets/imgs/title.svg";
+import { STYLE } from "@/styles.js";
 
 const CODE_KEY = {
   LEFT: 37,
@@ -73,8 +77,8 @@ class App extends React.Component{
     const that = this;
     const exec = setInterval(function(){
       that.resolveCode(validMoves[i++]);
-      if(i == validMoves.length) clearInterval(exec);
-    }, 500);
+    
+    }, 300);
   }
   keyHandle(event){
     const code = event.keyCode != 0 ? event.keyCode : event.charCode;
@@ -89,7 +93,12 @@ class App extends React.Component{
   render(){
     return (
       <div className={this.props.className} >
+        <StyledTitle img={titleImg} text="Solved with A* Algorithm" />
         <GridSquares grid={this.props.grid} />
+        <ButtonSet>
+          <Button icon={playIcon} onClick={this.start}/>
+          <Button icon={resetIcon} />
+        </ButtonSet>
       </div>
     );
   }
@@ -113,8 +122,43 @@ const _App = connect(
 
 const AppStyled = styled(_App)`
   display: flex;
-  border: 1px dashed lightpink;
+  flex-wrap: wrap;
   justify-content: center;
+  align-content: center;
+  flex-direction: column;
+`;
+
+const Title = ({className, img, text}) => (
+  <div className={className}>
+    { img && <img src={img}></img> }
+    { text && <span>{text}</span> }
+  </div>
+)
+
+const StyledTitle = styled(Title)`
+  img{
+    width: 90%;
+  }
+  span{
+    height: 2em;
+    margin: 10px 0 5px;
+    color: white;
+    font-family: ${ STYLE.fontFamily }, sans-serif;
+  }
+  margin: 20px 0 10px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+`;
+
+const ButtonSet = styled.div`
+  position: relative;
+  display: flex;
+  justify-content: center;
+  margin: 10px;
+  div{
+    margin: 0 10px;
+  }
 `;
 
 export default AppStyled;
