@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import Square from './Square';
 import React from 'react';
+import { STYLE } from '@/styles.js';
 
 const Grid = ({className, grid}) => (
   <div className={className}>
@@ -21,7 +22,7 @@ const GridSquares = styled(Grid)`
   width: 300px;
   padding: 30px;
   border-radius: 10px;
-  background-color: rgba(59, 9, 65, 0.6);
+  background-color: ${STYLE.primaryColor};
   div{
     float:left;
   }

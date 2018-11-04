@@ -1,19 +1,11 @@
 import styled, { keyframes } from "styled-components";
 import React from "react";
-
+import { STYLE } from "@/styles.js";
 
 const makeKeyframesMove = (dir, shift) => `
-  0%{ 
-    ${dir == 'h' ? 'left' : 'top'}: 0%;
-  }
-  70%{
-    transform: scale(1.05);
-    background-color: #ff0372;
-  }
-  100%{ 
-    ${dir == 'h' ? 'left' : 'top'}: ${shift};
-    transform: skew(0deg);
-  }
+  0%{ ${dir == 'h' ? 'left' : 'top'}: 0%; }
+  70%{ transform: scale(1.05); background-color: #aaa;}
+  100%{ ${dir == 'h' ? 'left' : 'top'}: ${shift}; }
 `;
 
 const moveLeft = keyframes`
@@ -47,15 +39,13 @@ const mapMove = (dir) =>
 
 const SquareStyled = styled(Square)`
   animation: ${props =>  mapMove(props.animate)} 0.25s cubic-bezier(0.19, 1, 0.22, 1);
-  width: 96px;
-  height: 96px;
+  width: 90px;
+  height: 90px;
   position: relative;
   box-sizing: border-box;
-  border: 3px solid white;
-  padding: 10px;
-  margin: 2px;
-  background-color: #e30372;
-  color: white;
+  margin: 5px;
+  background-color: white;
+  color: ${STYLE.bg};
   opacity: ${props => props.transparent ? 0 : 1};
   text-align: center;
   font-weight: bolder;
@@ -63,8 +53,8 @@ const SquareStyled = styled(Square)`
   font-size: 4em;
   border-radius: 10%;
   span{
-    height: 76px;
-    line-height: 76px;
+    height: 90px;
+    line-height: 90 px;
     display: block;
   }
 `;
