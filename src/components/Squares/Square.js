@@ -4,6 +4,7 @@ import { STYLE } from "@/styles.js";
 
 const makeKeyframesMove = (dir, shift) => `
   0%{ transform: translate${dir}(0px); }  
+  90%{ transform: translate${dir}(${shift}px) scale(1.05); background-color: #ddd; }
   100%{ transform: translate${dir}(${shift}px); }
 `;
 
@@ -37,7 +38,7 @@ const mapMove = (dir) =>
   'none';
 
 const SquareStyled = styled(Square)`
-  animation: ${props =>  mapMove(props.animate)} 0.25s cubic-bezier(0.19, 1, 0.22, 1);
+  animation: ${props =>  mapMove(props.animate)} 0.23s cubic-bezier(0.19, 1, 0.22, 1);
   width: 90px;
   height: 90px;
   box-sizing: border-box;

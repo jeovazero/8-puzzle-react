@@ -8,6 +8,8 @@ import Button from "@/components/Button/Button";
 import playIcon from "@/assets/icons/play.svg";
 import resetIcon from "@/assets/icons/reset.svg";
 import titleImg from "@/assets/imgs/title.svg";
+import hintImg from "@/assets/imgs/hint.svg";
+
 import { STYLE } from "@/styles.js";
 
 const CODE_KEY = {
@@ -93,12 +95,15 @@ class App extends React.Component{
   render(){
     return (
       <div className={this.props.className} >
-        <StyledTitle img={titleImg} text="Solved with A* Algorithm" />
-        <GridSquares grid={this.props.grid} />
-        <ButtonSet>
-          <Button icon={playIcon} onClick={this.start}/>
-          <Button icon={resetIcon} />
-        </ButtonSet>
+        <div className="mid">
+          <StyledTitle img={titleImg} text="Solved with A* Algorithm" />
+          <GridSquares grid={this.props.grid} />        
+          <ButtonSet>
+            <Button icon={playIcon} onClick={this.start}/>
+            <Button icon={resetIcon} />
+          </ButtonSet>
+        </div>
+        <Hint text="Moves" img={hintImg} className="hint"/>
       </div>
     );
   }
@@ -121,13 +126,20 @@ const _App = connect(
 )(App);
 
 const AppStyled = styled(_App)`
-  margin: auto;
-  width: 400px;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  flex-direction: column;
-  align-items: center;
+  .mid{
+    width: 400px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+  }
+  .hint{
+    margin-top: 130px;
+  }
 `;
 
 const Title = ({className, img, text}) => (
@@ -138,10 +150,12 @@ const Title = ({className, img, text}) => (
 )
 
 const StyledTitle = styled(Title)`
+  width: 250px;
   img{
-    width: 250px;
+    width: 100%;
   }
   span{
+    width: 100%;
     display: block;
     height: 2em;
     margin: 10px 0 5px;
@@ -159,6 +173,26 @@ const ButtonSet = styled.div`
   margin: 10px;
   div{
     margin: 0 10px;
+  }
+`;
+
+const _Hint = ({img, text, className}) => (
+  <div className={className}>
+    { text && <span> {text} </span>}
+    { img && <img src={img} /> }
+  </div>
+);
+
+const Hint = styled(_Hint)`
+  font-family: ${ STYLE.fontFamily }, sans-serif;
+  width: 100px;
+  text-align: center;
+  color: white;
+  font-size: 1.5em;
+  
+  img{
+    width: 100%;
+    margin-top: 10px;
   }
 `;
 

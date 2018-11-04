@@ -23,9 +23,8 @@ const GridSquares = styled(Grid)`
   padding: 30px;
   border-radius: 10px;
   background-color: ${STYLE.primaryColor};
-  div{
-    float: left;
-  }
+  display: flex;
+  flex-wrap: wrap;
 `;
 
 export default GridSquares;
