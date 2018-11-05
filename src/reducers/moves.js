@@ -1,4 +1,4 @@
-import { MAKE_ANIMATION, SET_MOVE, VERIFY_MOVE, RESET } from '../constants/actionTypes';
+import { MAKE_ANIMATION, SET_MOVE, VERIFY_MOVE, RESET, SOLVING } from '../constants/actionTypes';
 import { sumCoordinates, isValidMove, aliasShift } from './_utils';
 
 const grid = [8, 3, 2, 7, 4, 5, 1, 6, 0].map((digit, i) => {
@@ -21,7 +21,8 @@ const initialState = {
   targetPosition: {x: 0, y: 0},
   targetDigit: 0,
   isRunning: false,
-  canAnimate: false
+  canAnimate: false,
+  isSolving: false
 }
 
 // returns, digit of target, position of target
@@ -87,6 +88,8 @@ export default function moves(state = initialState, action){
       return {...state, ...resolveSetMove(state) }
     case RESET:
       return {...initialState};
+    case SOLVING:
+      return {...state, isSolving: action.bool};
     default: return state;
   }
 }

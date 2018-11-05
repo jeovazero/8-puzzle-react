@@ -16,15 +16,13 @@ import resetIcon from "@/assets/icons/reset.svg";
 import titleImg from "@/assets/imgs/title.svg";
 import hintImg from "@/assets/imgs/hint.svg";
 
-import { CODE_KEY, solveGrid } from "./_helpersApp";
+import CODE_KEY from "@/constants/keys";
 
 class App extends React.Component{
   constructor(props){
     super(props);
     this.keyHandle = this.keyHandle.bind(this);
     this.resolveCode = this.resolveCode.bind(this);
-    this.start = this.start.bind(this);
-    this.solveGrid = solveGrid;
     console.log(props)
   }
 
@@ -47,26 +45,21 @@ class App extends React.Component{
       case CODE_KEY.DOWN:
         this.props.goDown();
         break;
+      case CODE_KEY.ENTER:
+        this.props.start();
+        break; 
       default: console.log(code)
     }
   }
 
-  start(){
-    const validMoves = this.solveGrid(this.props.grid);
-    let i = 0;
-    const that = this;
-    const exec = setInterval(function(){
-      that.resolveCode(validMoves[i++]);
-      if(i == validMoves.length) clearInterval(exec);
-    }, 260);
-  }
-
   keyHandle(event){
     const code = event.keyCode != 0 ? event.keyCode : event.charCode;
-    if(code == CODE_KEY.ENTER){
-      this.start();
+    // notSolving
+    if(!this.props.isSolving) { 
+      this.resolveCode(code);
+    }else{
+      console.log('STOP!');
     }
-    else this.resolveCode(code);
   }
 
   componentWillMount(){
@@ -80,7 +73,7 @@ class App extends React.Component{
           <StyledTitle img={titleImg} text="Solved with A* Algorithm" />
           <GridSquares grid={this.props.grid} />        
           <ButtonSet>
-            <Button icon={playIcon} onClick={this.start}/>
+            <Button icon={playIcon} onClick={this.props.start}/>
             <Button icon={resetIcon} onClick={this.props.reset}/>
           </ButtonSet>
         </div>
@@ -92,7 +85,8 @@ class App extends React.Component{
 
 // Redux ===================================
 const mapStateToProps = (state) => ({
-  grid: state.moves.grid
+  grid: state.moves.grid,
+  isSolving: state.moves.isSolving
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -100,7 +94,8 @@ const mapDispatchToProps = (dispatch) => ({
   goRight: () => dispatch(movesAction.goright()),
   goDown: () => dispatch(movesAction.godown()),
   goUp: () => dispatch(movesAction.goup()),
-  reset: () => dispatch(movesAction.reset())
+  reset: () => dispatch(movesAction.goreset()),
+  start: () => dispatch(movesAction.start())
 })
 
 const _App = connect(

@@ -1,4 +1,6 @@
-import {MAKE_ANIMATION, SET_MOVE, VERIFY_MOVE, RESET} from '../constants/actionTypes';
+import {MAKE_ANIMATION, SET_MOVE, VERIFY_MOVE, RESET, SOLVING } from '../constants/actionTypes';
+import CODE_KEY from '../constants/keys';
+import helpers from './_helpersMove';
 
 const SHIFT = {
   LEFT: {x: 1, y: 0},
@@ -19,16 +21,67 @@ function setMove(){
   return { type: SET_MOVE };
 }
 
+function solving(bool){
+  return { type: SOLVING, bool }
+}
+
 function reset(){
   return { type: RESET };
 }
 
+function goreset(){
+  return (dispatch, getState) => {
+    const {moves:{isSolving}} = getState();
+    if(!isSolving){
+      dispatch(reset());
+    }else{
+      console.log("Is Solving! You can't reset now!")
+    }
+  }
+}
+
+function start(){
+  return (dispatch, getState) => {
+    const {moves:{grid, isSolving}} = getState();
+
+    // notSolving
+    if(!isSolving){
+      const validMoves = helpers.solveGrid(grid);
+
+      // sorry, for imperative code :(
+      return new Promise((resolve) => {
+        let i = 0;
+        dispatch(solving(true));
+        const exec = setInterval(function(){
+          switch(validMoves[i++]){
+            case CODE_KEY.LEFT: dispatch(goleft()); break;
+            case CODE_KEY.RIGHT: dispatch(goright()); break;
+            case CODE_KEY.UP: dispatch(goup()); break;
+            case CODE_KEY.DOWN: dispatch(godown()); break;
+          }
+          if(i == validMoves.length) {
+            clearInterval(exec);
+            dispatch(solving(false));
+            resolve();
+          }
+        }, 260);
+      });
+    }else{
+      console.log('ALREADY SOLVING! :D');
+    }
+  }
+}
+
 function go(shift){
-  return (dispatch, getState )=> {
+  return (dispatch, getState ) => {
     const {moves:{isRunning}} = getState();
+
+    // isRunning ?
     if(!isRunning){
       dispatch(verifyMove(shift));
       const {moves:{canAnimate}} = getState();
+
+      // canAnimate ?
       if(canAnimate){
         dispatch(makeAnimation(shift));
         setTimeout(() => {
@@ -49,5 +102,6 @@ export default {
   goright,
   goup,
   godown,
-  reset
+  goreset,
+  start
 };
