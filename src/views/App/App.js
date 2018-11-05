@@ -16,7 +16,7 @@ import resetIcon from "@/assets/icons/reset.svg";
 import titleImg from "@/assets/imgs/title.svg";
 import hintImg from "@/assets/imgs/hint.svg";
 
-import { CODE_KEY, solveGrid } from "./_utilsApp";
+import { CODE_KEY, solveGrid } from "./_helpersApp";
 
 class App extends React.Component{
   constructor(props){
