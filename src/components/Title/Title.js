@@ -10,7 +10,7 @@ const Title = ({className, img, text}) => (
 )
 
 const StyledTitle = styled(Title)`
-  width: 250px;
+  width: 300px;
   img{
     width: 100%;
   }

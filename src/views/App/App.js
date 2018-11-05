@@ -108,6 +108,7 @@ const _App = connect(
   mapDispatchToProps
 )(App);
 
+
 // Styles ==================================
 const AppStyled = styled(_App)`
   display: flex;
@@ -122,7 +123,15 @@ const AppStyled = styled(_App)`
     align-items: center;
   }
   .hint{
-    margin-top: 130px;
+    margin-top: 140px;
+  }
+  @media (max-width: 640px) {
+    .hint{
+      padding: 50px;
+      clear: both;
+      width: 200px;
+      margin-top: 10px;
+    }
   }
 `;
 
