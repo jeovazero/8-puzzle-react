@@ -1,4 +1,4 @@
-import {MAKE_ANIMATION, SET_MOVE, VERIFY_MOVE} from '../constants/actionTypes';
+import {MAKE_ANIMATION, SET_MOVE, VERIFY_MOVE, RESET} from '../constants/actionTypes';
 
 const SHIFT = {
   LEFT: {x: 1, y: 0},
@@ -8,15 +8,19 @@ const SHIFT = {
 }
 
 function makeAnimation(shift){
-  return { type: MAKE_ANIMATION, shift }
+  return { type: MAKE_ANIMATION, shift };
 }
 
 function verifyMove(shift){
-  return { type: VERIFY_MOVE, shift }
+  return { type: VERIFY_MOVE, shift };
 }
 
 function setMove(){
-  return { type: SET_MOVE }
+  return { type: SET_MOVE };
+}
+
+function reset(){
+  return { type: RESET };
 }
 
 function go(shift){
@@ -44,5 +48,6 @@ export default {
   goleft,
   goright,
   goup,
-  godown
+  godown,
+  reset
 };

@@ -1,5 +1,5 @@
 import React from "react";
-import moves from "../../actions/moves";
+import movesAction from "../../actions/moves";
 import styled from "styled-components";
 import { connect } from "react-redux";
 
@@ -81,7 +81,7 @@ class App extends React.Component{
           <GridSquares grid={this.props.grid} />        
           <ButtonSet>
             <Button icon={playIcon} onClick={this.start}/>
-            <Button icon={resetIcon} />
+            <Button icon={resetIcon} onClick={this.props.reset}/>
           </ButtonSet>
         </div>
         <Hint text="Moves" img={hintImg} className="hint"/>
@@ -96,10 +96,11 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  goLeft: () => dispatch(moves.goleft()),
-  goRight: () => dispatch(moves.goright()),
-  goDown: () => dispatch(moves.godown()),
-  goUp: () => dispatch(moves.goup())
+  goLeft: () => dispatch(movesAction.goleft()),
+  goRight: () => dispatch(movesAction.goright()),
+  goDown: () => dispatch(movesAction.godown()),
+  goUp: () => dispatch(movesAction.goup()),
+  reset: () => dispatch(movesAction.reset())
 })
 
 const _App = connect(

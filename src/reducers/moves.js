@@ -1,19 +1,24 @@
-import { MAKE_ANIMATION, SET_MOVE, VERIFY_MOVE } from '../constants/actionTypes';
+import { MAKE_ANIMATION, SET_MOVE, VERIFY_MOVE, RESET } from '../constants/actionTypes';
 import { sumCoordinates, isValidMove, aliasShift } from './_utils';
 
-const grid = [1, 2, 3, 4, 5, 0, 7, 8, 6].map((digit, i) => {
+const grid = [8, 3, 2, 7, 4, 5, 1, 6, 0].map((digit, i) => {
   return {
     digit,
     x: Math.trunc(i / 3),
     y: Math.trunc(i % 3),
     keyframe: 'none'
   }
-})
+});
+
+const getBlankPosition = (grid) => {
+  const {x, y} = grid.filter(d => d.digit == 0)[0];
+  return {x, y};
+}
 
 const initialState = {
   grid,
-  blankPosition: { x: 2, y: 1 },
-  targetPosition: { x: 2, y: 1 },
+  blankPosition: getBlankPosition(grid),
+  targetPosition: {x: 0, y: 0},
   targetDigit: 0,
   isRunning: false,
   canAnimate: false
@@ -80,6 +85,8 @@ export default function moves(state = initialState, action){
       return {...state, ...makeAnimation(state, action.shift) };
     case SET_MOVE:
       return {...state, ...resolveSetMove(state) }
+    case RESET:
+      return {...initialState};
     default: return state;
   }
 }
