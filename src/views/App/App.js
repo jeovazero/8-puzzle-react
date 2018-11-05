@@ -2,40 +2,21 @@ import React from "react";
 import moves from "../../actions/moves";
 import styled from "styled-components";
 import { connect } from "react-redux";
-import {AESTRELA, State} from "../../search/ia_lib";
+
+// Components ==================
 import GridSquares from "@/components/Squares/GridSquares";
 import Button from "@/components/Button/Button";
+import ButtonSet from "@/components/Button/ButtonSet";
+import StyledTitle from "@/components/Title/Title";
+import Hint from "@/components/Hint/Hint";
+
+// Assets ======================
 import playIcon from "@/assets/icons/play.svg";
 import resetIcon from "@/assets/icons/reset.svg";
 import titleImg from "@/assets/imgs/title.svg";
 import hintImg from "@/assets/imgs/hint.svg";
 
-import { STYLE } from "@/styles.js";
-
-const CODE_KEY = {
-  LEFT: 37,
-  UP: 38,
-  RIGHT: 39,
-  DOWN: 40,
-  W: 119,
-  A: 97,
-  D: 100,
-  S: 115,
-  ENTER: 13
-}
-
-const toMatrix = (list) =>
-  [list.slice(0, 3), list.slice(3, 6), list.slice(6, 9)]
-
-const symbolToMove = (s) => {
-  console.log(s)
-  switch(s){
-    case 'v': return CODE_KEY.UP;
-    case '^': return CODE_KEY.DOWN;
-    case '>': return CODE_KEY.LEFT;
-    case '<': return CODE_KEY.RIGHT;
-  }
-}
+import { CODE_KEY, solveGrid } from "./_utilsApp";
 
 class App extends React.Component{
   constructor(props){
@@ -43,8 +24,10 @@ class App extends React.Component{
     this.keyHandle = this.keyHandle.bind(this);
     this.resolveCode = this.resolveCode.bind(this);
     this.start = this.start.bind(this);
+    this.solveGrid = solveGrid;
     console.log(props)
   }
+
   resolveCode(code){
     // console.log(this.props.grid)
     switch(code){
@@ -67,21 +50,17 @@ class App extends React.Component{
       default: console.log(code)
     }
   }
+
   start(){
-    const result = AESTRELA(
-      new State(
-        toMatrix(this.props.grid.map(o => o.digit))
-      )
-    );
-    const moves = result.resultado_busca.estado_resultado.moves;
-    const validMoves = moves.map( o => symbolToMove(o.simbol) );
+    const validMoves = this.solveGrid(this.props.grid);
     let i = 0;
     const that = this;
     const exec = setInterval(function(){
       that.resolveCode(validMoves[i++]);
-    
+      if(i == validMoves.length) clearInterval(exec);
     }, 260);
   }
+
   keyHandle(event){
     const code = event.keyCode != 0 ? event.keyCode : event.charCode;
     if(code == CODE_KEY.ENTER){
@@ -89,9 +68,11 @@ class App extends React.Component{
     }
     else this.resolveCode(code);
   }
+
   componentWillMount(){
     document.addEventListener("keypress", this.keyHandle)
   }
+
   render(){
     return (
       <div className={this.props.className} >
@@ -109,6 +90,7 @@ class App extends React.Component{
   }
 };
 
+// Redux ===================================
 const mapStateToProps = (state) => ({
   grid: state.moves.grid
 });
@@ -125,6 +107,7 @@ const _App = connect(
   mapDispatchToProps
 )(App);
 
+// Styles ==================================
 const AppStyled = styled(_App)`
   display: flex;
   flex-wrap: wrap;
@@ -139,60 +122,6 @@ const AppStyled = styled(_App)`
   }
   .hint{
     margin-top: 130px;
-  }
-`;
-
-const Title = ({className, img, text}) => (
-  <div className={className}>
-    { img && <img src={img}></img> }
-    { text && <span>{text}</span> }
-  </div>
-)
-
-const StyledTitle = styled(Title)`
-  width: 250px;
-  img{
-    width: 100%;
-  }
-  span{
-    width: 100%;
-    display: block;
-    height: 2em;
-    margin: 10px 0 5px;
-    color: white;
-    font-family: ${ STYLE.fontFamily }, sans-serif;
-  }
-  text-align: center;
-  margin: 20px 0 10px;
-`;
-
-const ButtonSet = styled.div`
-  position: relative;
-  display: flex;
-  justify-content: center;
-  margin: 10px;
-  div{
-    margin: 0 10px;
-  }
-`;
-
-const _Hint = ({img, text, className}) => (
-  <div className={className}>
-    { text && <span> {text} </span>}
-    { img && <img src={img} /> }
-  </div>
-);
-
-const Hint = styled(_Hint)`
-  font-family: ${ STYLE.fontFamily }, sans-serif;
-  width: 100px;
-  text-align: center;
-  color: white;
-  font-size: 1.5em;
-  
-  img{
-    width: 100%;
-    margin-top: 10px;
   }
 `;
 
