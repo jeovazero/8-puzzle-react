@@ -1,3 +1,9 @@
+/*!
+ * PriorityQueue - Data Structure - JS
+ * Copyright(c) 2018 Jeová Pereira Gomes (@jeovazero <contato@jeova.ninja>)
+ * MIT Licensed
+ */
+
 function PQ() {
     var queue = [
     ];

@@ -1,3 +1,8 @@
+/*!
+ * Copyright(c) 2018 Jeová Pereira Gomes (@jeovazero <contato@jeova.ninja>)
+ * MIT Licensed
+ */
+
 const {PQ} = require('./ia_pq.js');
 // ================================================================================
 // =========================== MOVIMENTOS =========================================
