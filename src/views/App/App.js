@@ -9,12 +9,14 @@ import Button from "@/components/Button/Button";
 import ButtonSet from "@/components/Button/ButtonSet";
 import StyledTitle from "@/components/Title/Title";
 import Hint from "@/components/Hint/Hint";
+import Footer from "@/components/Footer/Footer";
 
 // Assets ======================
 import playIcon from "@/assets/icons/play.svg";
 import resetIcon from "@/assets/icons/reset.svg";
 import titleImg from "@/assets/imgs/title.svg";
 import hintImg from "@/assets/imgs/hint.svg";
+import nameImg from "@/assets/imgs/name.svg";
 
 import CODE_KEY from "@/constants/keys";
 
@@ -78,6 +80,7 @@ class App extends React.Component{
           </ButtonSet>
         </div>
         <Hint text="Moves" img={hintImg} className="hint"/>
+        <Footer img={nameImg} className="name"/>
       </div>
     );
   }
@@ -116,17 +119,25 @@ const AppStyled = styled(_App)`
     justify-content: center;
     flex-direction: column;
     align-items: center;
+    margin-left: 100px;
   }
   .hint{
     margin-top: 140px;
   }
   @media (max-width: 640px) {
-    .hint{
-      padding: 50px;
-      clear: both;
-      width: 200px;
-      margin-top: 10px;
+    .mid{
+      margin-left: 0px;
     }
+    .hint{
+      padding: 0 100px;
+      clear: both;
+      width: 100px;
+      margin-top: 20px;
+    }
+  }
+  .name{
+    text-align: center;
+    width: 100%;
   }
 `;
 
