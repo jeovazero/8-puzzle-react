@@ -2,7 +2,7 @@
 
 The 8-Puzzle implemented with React, <a href="https://github.com/jeovazero">React-Spring</a>, Redux
 
-![](https://media.giphy.com/media/APybMIPOXNd61E0imQ/giphy.gif)
+![](https://cdn.pbrd.co/images/HRBhIIL.png)
 
 
 
