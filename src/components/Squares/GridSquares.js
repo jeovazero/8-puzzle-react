@@ -6,11 +6,11 @@ import { STYLE } from '@/styles.js';
 const Grid = ({className, grid}) => (
   <div className={className}>
     {
-      grid.map( ({digit, keyframe='none'}) => 
+      grid.map( ({digit, delta}) => 
         <Square 
           key={digit}
           transparent={digit == 0}
-          animate={keyframe}
+          delta={delta}
           >{ digit }
         </Square>
       )

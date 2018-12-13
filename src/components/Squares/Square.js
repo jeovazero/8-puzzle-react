@@ -1,44 +1,27 @@
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import React from "react";
 import { STYLE } from "@/styles.js";
+import { animated, Spring, interpolate, config } from 'react-spring';
 
-const makeKeyframesMove = (dir, shift) => `
-  0%{ transform: translate${dir}(0px); }  
-  90%{ transform: translate${dir}(${shift}px) scale(1.05); background-color: #ddd; }
-  100%{ transform: translate${dir}(${shift}px); }
-`;
-
-const moveLeft = keyframes`
-  ${makeKeyframesMove('X', 100)}
-`;
-
-const moveRight = keyframes`
-  ${makeKeyframesMove('X', -100)}
-`;
-
-const moveUp = keyframes`
-  ${makeKeyframesMove('Y', 100)}
-`; 
-
-const moveDown = keyframes`
-  ${makeKeyframesMove('Y', -100)}
-`; 
-
-const Square = ({children, className, hostRef}) => (
-  <div className={className} ref={hostRef}>
-    <span>{ children || '-' }</span>
-  </div>
-);
-
-const mapMove = (dir) => 
-  dir == 'goleft' ? moveLeft :
-  dir == 'goright' ? moveRight :
-  dir == 'goup' ? moveUp :
-  dir == 'godown' ? moveDown :
-  'none';
+const Square = ({children, className, style, delta}) => {
+  return (
+  <Spring
+    config={config.gentle}
+    native
+    to={delta}>
+    { ({x, y}) =>
+        <animated.div
+          className={className}
+          style={{ ...style, 
+            transform: interpolate([x,y], (x, y) => `translate3d(${x * 100}px,${y * 100}px, 0)`)
+          }}>
+          <span>{ children || '-' }</span>
+        </animated.div>
+      }
+  </Spring>
+)};
 
 const SquareStyled = styled(Square)`
-  animation: ${props =>  mapMove(props.animate)} 0.23s cubic-bezier(0.19, 1, 0.22, 1);
   width: 90px;
   height: 90px;
   box-sizing: border-box;

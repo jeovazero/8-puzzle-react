@@ -8,14 +8,3 @@ export const sumCoordinates = (u, v) => ({
 });
 
 export const scalarMult = (e, {x, y}) => ({x: x*e, y: y*e});
-export const mapShiftToAlias = ({x, y}) =>
-  x == 1 ? 'goright' :
-  x == -1 ? 'goleft' :
-  y == 1 ? 'godown' :
-  y == -1 ? 'goup' :
-  'none';
-
-export const aliasShift = (digit, shift, targetDigit) => 
-  digit == 0 ? mapShiftToAlias(scalarMult(-1, shift)) :
-  digit == targetDigit ? mapShiftToAlias(shift) :
-  mapShiftToAlias({x: 0, y: 0})

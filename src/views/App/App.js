@@ -25,7 +25,7 @@ class App extends React.Component{
     super(props);
     this.keyHandle = this.keyHandle.bind(this);
     this.resolveCode = this.resolveCode.bind(this);
-    console.log(props)
+    // console.log(props)
   }
 
   resolveCode(code){
@@ -65,10 +65,11 @@ class App extends React.Component{
   }
 
   componentWillMount(){
-    document.addEventListener("keypress", this.keyHandle)
+    document.addEventListener("keydown", this.keyHandle)
   }
 
   render(){
+    //console.log(this.props.grid)
     return (
       <div className={this.props.className} >
         <div className="mid">
@@ -99,7 +100,7 @@ const mapDispatchToProps = (dispatch) => ({
   goUp: () => dispatch(movesAction.goup()),
   reset: () => dispatch(movesAction.goreset()),
   start: () => dispatch(movesAction.start())
-})
+});
 
 const _App = connect(
   mapStateToProps,

@@ -17,7 +17,7 @@ const symbolToMove = (s) => {
 const solveGrid = (grid) => {
   const result = AESTRELA(
     new State(
-      toMatrix(grid.map(o => o.digit))
+      toMatrix(grid)
     )
   );
   const moves = result.resultado_busca.estado_resultado.moves;
