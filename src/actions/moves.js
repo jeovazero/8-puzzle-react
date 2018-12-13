@@ -1,4 +1,4 @@
-import {MAKE_ANIMATION, SET_MOVE, VERIFY_MOVE, RESET, SOLVING } from '../constants/actionTypes';
+import { SET_MOVE, VERIFY_MOVE, RESET, SOLVING } from '../constants/actionTypes';
 import CODE_KEY from '../constants/keys';
 import helpers from './_helpersMove';
 
@@ -7,10 +7,6 @@ const SHIFT = {
   RIGHT: {x: -1, y: 0},
   UP: {x: 0, y: 1},
   DOWN: {x: 0, y: -1}
-}
-
-function makeAnimation(shift){
-  return { type: MAKE_ANIMATION, shift };
 }
 
 function verifyMove(shift){
@@ -32,6 +28,7 @@ function reset(){
 function goreset(){
   return (dispatch, getState) => {
     const {moves:{isSolving}} = getState();
+    console.log(isSolving);
     if(!isSolving){
       dispatch(reset());
     }else{
@@ -42,27 +39,27 @@ function goreset(){
 
 function start(){
   return (dispatch, getState) => {
-    const {moves:{grid, isSolving}} = getState();
-
+    const {moves:{gridData, isSolving}} = getState();
+    console.log(gridData, isSolving);
     // notSolving
     if(!isSolving){
-      const validMoves = helpers.solveGrid(grid);
+      const validMoves = helpers.solveGrid(gridData);
 
       // sorry, for imperative code :(
       return new Promise((resolve) => {
         let i = 0;
         dispatch(solving(true));
         const exec = setInterval(function(){
+          if(i == validMoves.length) {
+            clearInterval(exec);
+            dispatch(solving(false));
+            resolve();
+          }
           switch(validMoves[i++]){
             case CODE_KEY.LEFT: dispatch(goleft()); break;
             case CODE_KEY.RIGHT: dispatch(goright()); break;
             case CODE_KEY.UP: dispatch(goup()); break;
             case CODE_KEY.DOWN: dispatch(godown()); break;
-          }
-          if(i == validMoves.length) {
-            clearInterval(exec);
-            dispatch(solving(false));
-            resolve();
           }
         }, 260);
       });
@@ -73,22 +70,19 @@ function start(){
 }
 
 function go(shift){
-  return (dispatch, getState ) => {
-    const {moves:{isRunning}} = getState();
+  return ( dispatch, getState ) => {
+    // const {moves:{isRunning}} = getState();
 
     // isRunning ?
-    if(!isRunning){
+    //if(!isRunning){
       dispatch(verifyMove(shift));
       const {moves:{canAnimate}} = getState();
 
       // canAnimate ?
       if(canAnimate){
-        dispatch(makeAnimation(shift));
-        setTimeout(() => {
-          dispatch(setMove());
-        }, 210);
+        dispatch(setMove());
       }
-    }
+    //}
   }
 }
 
