@@ -43,11 +43,11 @@ const resolveSetMove = state => {
     digit === 0
       ? { pos: targetPosition, delta: sumCoordinates(delta, shift) }
       : digit === targetDigit
-      ? {
+        ? {
           pos: blankPosition,
           delta: sumCoordinates(delta, scalarMult(-1, shift))
         }
-      : {}
+        : {}
 
   const grid = oldGrid.map(attr => {
     return { ...attr, ...resolvePositionDelta(attr) }
