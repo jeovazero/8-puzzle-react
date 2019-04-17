@@ -76,7 +76,7 @@ const App = ({ className, start, reset, goDown, goLeft, goRight, goUp, grid, isS
     <div className={className}>
       <div className='mid'>
         <StyledTitle img={titleImg} text='Solved with A* Algorithm' />
-        <GridSquares grid={grid} />
+        <GridSquares grid={grid} squareShift={90}/>
         <ButtonSet>
           <Button icon={playIcon} onClick={start} />
           <Button icon={resetIcon} onClick={reset} />
@@ -139,6 +139,11 @@ const AppStyled = styled(_App)`
   .name {
     text-align: center;
     width: 100%;
+  }
+  @media (max-width: 480px) {
+    .mid {
+      width: 300px;
+    }
   }
 `
 

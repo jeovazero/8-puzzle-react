@@ -24,6 +24,11 @@ const StyledTitle = styled(Title)`
   }
   text-align: center;
   margin: 20px 0 10px;
+
+  @media (max-width: 480px) {
+    width: 200px;
+    margin: 20px auto 10px;
+  }
 `
 
 export default StyledTitle

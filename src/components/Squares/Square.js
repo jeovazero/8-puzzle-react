@@ -3,7 +3,7 @@ import React from 'react'
 import { STYLE } from '@/styles.js'
 import { animated, Spring, interpolate, config } from 'react-spring'
 
-const Square = ({ children, className, style, delta }) => {
+const Square = ({ children, className, style, delta, shift }) => {
   return (
     <Spring config={config.gentle} native to={delta}>
       {({ x, y }) => (
@@ -13,7 +13,7 @@ const Square = ({ children, className, style, delta }) => {
             ...style,
             transform: interpolate(
               [x, y],
-              (x, y) => `translate3d(${x * 100}px,${y * 100}px, 0)`
+              (x, y) => `translate3d(${x * shift}px,${y * shift}px, 0)`
             )
           }}
         >
@@ -25,8 +25,8 @@ const Square = ({ children, className, style, delta }) => {
 }
 
 const SquareStyled = styled(Square)`
-  width: 90px;
-  height: 90px;
+  width: 80px;
+  height: 80px;
   box-sizing: border-box;
   margin: 5px;
   background-color: white;
@@ -35,7 +35,7 @@ const SquareStyled = styled(Square)`
   text-align: center;
   font-weight: bolder;
   font-family: 'Viga', sans-serif;
-  font-size: 4em;
+  font-size: 3.6em;
   border-radius: 10%;
   position: relative;
   span {
