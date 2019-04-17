@@ -7,7 +7,9 @@
   "license": "MIT",
   "scripts": {
     "start": "webpack-dev-server --progress --mode development --open",
-    "prod": "webpack --mode production"
+    "prod": "webpack --mode production",
+    "prettier": "prettier-standard 'src/**/*.js'",
+    "lint:fix": "standard --fix 'src/**/*.js'"
   },
   "devDependencies": {
     "@babel/core": "^7.1.2",
@@ -17,6 +19,8 @@
     "babel-plugin-styled-components": "^1.8.0",
     "file-loader": "^2.0.0",
     "html-webpack-plugin": "^3.2.0",
+    "prettier-standard": "^9.1.1",
+    "standard": "^12.0.1",
     "styled-components": "^4.0.2",
     "webpack": "^4.23.1",
     "webpack-cli": "^3.1.2",
