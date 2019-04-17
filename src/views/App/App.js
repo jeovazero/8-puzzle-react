@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import movesAction from '../../actions/moves'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
@@ -20,72 +20,72 @@ import nameImg from '@/assets/imgs/name.svg'
 
 import CODE_KEY from '@/constants/keys'
 
-class App extends React.Component {
-  constructor (props) {
-    super(props)
-    this.keyHandle = this.keyHandle.bind(this)
-    this.resolveCode = this.resolveCode.bind(this)
-    // console.log(props)
+const _keyHandler = (event, state, callback) => {
+  const code = event.keyCode !== 0 ? event.keyCode : event.charCode
+  console.log(event, event.keyCode, event.charCode, code)
+  // notSolving
+  if (!state.isSolving) {
+    // this.resolveCode(code)
+    callback(code)
+  } else {
+    console.log('STOP!')
+  }
+}
+
+const _resolveCode = (code, actions) => {
+  // console.log(this.props.grid)
+  switch (code) {
+    case CODE_KEY.LEFT:
+    case CODE_KEY.A:
+      actions.goLeft()
+      break
+    case CODE_KEY.W:
+    case CODE_KEY.UP:
+      actions.goUp()
+      break
+    case CODE_KEY.D:
+    case CODE_KEY.RIGHT:
+      actions.goRight()
+      break
+    case CODE_KEY.S:
+    case CODE_KEY.DOWN:
+      actions.goDown()
+      break
+    case CODE_KEY.ENTER:
+      actions.start()
+      break
+    default:
+      console.log(code)
+  }
+}
+
+const App = ({ className, start, reset, goDown, goLeft, goRight, goUp, grid, isSolving }) => {
+  const actions = {
+    start, reset, goLeft, goRight, goUp, goDown
   }
 
-  resolveCode (code) {
-    // console.log(this.props.grid)
-    switch (code) {
-      case CODE_KEY.LEFT:
-      case CODE_KEY.A:
-        this.props.goLeft()
-        break
-      case CODE_KEY.W:
-      case CODE_KEY.UP:
-        this.props.goUp()
-        break
-      case CODE_KEY.D:
-      case CODE_KEY.RIGHT:
-        this.props.goRight()
-        break
-      case CODE_KEY.S:
-      case CODE_KEY.DOWN:
-        this.props.goDown()
-        break
-      case CODE_KEY.ENTER:
-        this.props.start()
-        break
-      default:
-        console.log(code)
-    }
-  }
+  const resolveCode = (code) => _resolveCode(code, actions)
 
-  keyHandle (event) {
-    const code = event.keyCode !== 0 ? event.keyCode : event.charCode
-    // notSolving
-    if (!this.props.isSolving) {
-      this.resolveCode(code)
-    } else {
-      console.log('STOP!')
-    }
-  }
+  useEffect(() => {
+    const keyHandler = (e) => _keyHandler(e, { isSolving }, resolveCode)
+    document.addEventListener('keydown', keyHandler)
+    return () => document.removeEventListener('keydown', keyHandler)
+  }, [])
 
-  componentWillMount () {
-    document.addEventListener('keydown', this.keyHandle)
-  }
-
-  render () {
-    // console.log(this.props.grid)
-    return (
-      <div className={this.props.className}>
-        <div className='mid'>
-          <StyledTitle img={titleImg} text='Solved with A* Algorithm' />
-          <GridSquares grid={this.props.grid} />
-          <ButtonSet>
-            <Button icon={playIcon} onClick={this.props.start} />
-            <Button icon={resetIcon} onClick={this.props.reset} />
-          </ButtonSet>
-        </div>
-        <Hint text='Moves' img={hintImg} className='hint' />
-        <Footer img={nameImg} className='name' />
+  return (
+    <div className={className}>
+      <div className='mid'>
+        <StyledTitle img={titleImg} text='Solved with A* Algorithm' />
+        <GridSquares grid={grid} />
+        <ButtonSet>
+          <Button icon={playIcon} onClick={start} />
+          <Button icon={resetIcon} onClick={reset} />
+        </ButtonSet>
       </div>
-    )
-  }
+      <Hint text='Moves' img={hintImg} className='hint' />
+      <Footer img={nameImg} className='name' />
+    </div>
+  )
 }
 
 // Redux ===================================
