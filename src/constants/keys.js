@@ -8,5 +8,5 @@ const CODE_KEY = {
   D: 100,
   S: 115,
   ENTER: 13
-};
-export default CODE_KEY;
+}
+export default CODE_KEY

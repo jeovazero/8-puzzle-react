@@ -1,18 +1,18 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react'
+import styled from 'styled-components'
 
-const _Footer = ({className, img, text}) => (
+const _Footer = ({ className, img, text }) => (
   <div className={className}>
-    { img && <img src={img}></img> }
-    { text && <span>{text}</span> }
+    {img && <img src={img} />}
+    {text && <span>{text}</span>}
   </div>
 )
 
 const Footer = styled(_Footer)`
-  img{
+  img {
     margin-top: 30px;
     width: 100px;
   }
-`;
+`
 
-export default Footer;
+export default Footer

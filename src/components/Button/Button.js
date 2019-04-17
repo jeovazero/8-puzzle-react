@@ -1,7 +1,7 @@
-import styled from "styled-components";
-import React from "react";
+import styled from 'styled-components'
+import React from 'react'
 
-const _Button = ({icon, className, onClick}) => (
+const _Button = ({ icon, className, onClick }) => (
   <div className={className} onClick={onClick}>
     <img src={icon} />
   </div>
@@ -15,15 +15,13 @@ const Button = styled(_Button)`
   align-items: center;
   justify-content: center;
   border-radius: 4px;
-  img{
+  img {
     width: 30%;
   }
-  :hover{
+  :hover {
     cursor: pointer;
     background-color: lightpink;
   }
-`;
+`
 
-
-
-export default Button;
+export default Button

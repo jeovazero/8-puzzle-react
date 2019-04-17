@@ -1,20 +1,15 @@
-import styled from 'styled-components';
-import Square from './Square';
-import React from 'react';
-import { STYLE } from '@/styles.js';
+import styled from 'styled-components'
+import Square from './Square'
+import React from 'react'
+import { STYLE } from '@/styles.js'
 
-const Grid = ({className, grid}) => (
+const Grid = ({ className, grid }) => (
   <div className={className}>
-    {
-      grid.map( ({digit, delta}) => 
-        <Square 
-          key={digit}
-          transparent={digit == 0}
-          delta={delta}
-          >{ digit }
-        </Square>
-      )
-    }
+    {grid.map(({ digit, delta }) => (
+      <Square key={digit} transparent={digit === 0} delta={delta}>
+        {digit}
+      </Square>
+    ))}
   </div>
 )
 
@@ -25,6 +20,6 @@ const GridSquares = styled(Grid)`
   background-color: ${STYLE.primaryColor};
   display: flex;
   flex-wrap: wrap;
-`;
+`
 
-export default GridSquares;
+export default GridSquares
