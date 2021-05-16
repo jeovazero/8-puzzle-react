@@ -419,6 +419,11 @@ debug@^4.1.0:
   dependencies:
     ms "2.1.2"
 
+dprint@0.14.0:
+  version "0.14.0"
+  resolved "https://registry.yarnpkg.com/dprint/-/dprint-0.14.0.tgz#5487150a1ff9cf34ae59382895dafa610714a03e"
+  integrity sha512-J4eeLDDXCEHWtxJZkcnWW+BAByhqwN/V91qoXJkl1MYFnbec4dA7M1D4HD1OlyI7iaFYRDFgINy3HIxcFrN7sQ==
+
 electron-to-chromium@^1.3.723:
   version "1.3.728"
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.728.tgz#dbedd6373f595ae10a13d146b66bece4c1afa5bd"
