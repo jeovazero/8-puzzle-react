@@ -80,11 +80,12 @@ const copyGrid = (
   grid: Grid,
 ): Grid => [copyRow(grid[0]), copyRow(grid[1]), copyRow(grid[2])]
 
+// col X row
 const STEPS: Array<[Step, Pair]> = [
-  [Step.Up, [-1, 0]],
-  [Step.Left, [0, -1]],
-  [Step.Down, [1, 0]],
-  [Step.Right, [0, 1]],
+  [Step.Up, [1, 0]],
+  [Step.Left, [0, 1]],
+  [Step.Down, [-1, 0]],
+  [Step.Right, [0, -1]],
 ]
 
 type DataStructure = {

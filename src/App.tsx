@@ -28,8 +28,8 @@ const ButtonContainer = styled.div`
 
 export default () => {
   const [state, dispatch] = usePuzzle()
+  console.log({ state })
 
-  console.log({ g: state.gridData })
   useEffect(() => {
     const keyListener = (event: KeyboardEvent) => {
       console.log(event.key)
@@ -63,9 +63,12 @@ export default () => {
     }
   }, [])
   const start = () => {
+    dispatch({ type: 'START' })
   }
 
-  const reset = () => {}
+  const reset = () => {
+    dispatch({ type: 'RESET' })
+  }
 
   return (
     <Theme>
