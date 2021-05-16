@@ -13,7 +13,7 @@ import { useEffect, useReducer } from 'react'
 type PuzzleState = {
   status: Status
   gridData: GridData
-  movesQueue: Array<Step>
+  solutionQueue: Array<Step>
   initialList: Array<number>
 }
 
@@ -22,6 +22,7 @@ type Action =
   | { type: 'RESET' }
   | { type: 'STOP' }
   | { type: 'MOVE'; payload: Step }
+  | { type: 'RUN_SOLUTION' }
 
 enum Status {
   Running,
@@ -56,12 +57,13 @@ const makeGridDataFromList = (list: Array<number>): GridData => ({
 
 const makeStateFromList = (list: Array<number>): PuzzleState => ({
   status: Status.Stopped,
-  movesQueue: [],
+  solutionQueue: [],
   gridData: makeGridDataFromList(list),
   initialList: list,
 })
 
 // Relative to zero position
+// row x col
 const MOVES: Record<Step, Pair> = {
   [Step.Down]: [0, -1],
   [Step.Up]: [0, 1],
@@ -111,36 +113,58 @@ const updateGridData = (step: Step, grid: GridData): GridData => {
   return grid
 }
 
-const solvePuzzle = (list: Array<number>) => {
-  return AStar(makeSearchState(gridFromList(list)))
+const solvePuzzle = (state: PuzzleState) => {
+  const list = Array(9)
+  for (const item of state.gridData.data) {
+    list[pairToIndex(item.position)] = item.digit
+  }
+  const ans = AStar(makeSearchState(gridFromList(list)))
+  return ans
 }
 
 const INITIAL_LIST = [8, 3, 2, 7, 4, 5, 1, 6, 0]
+// const INITIAL_LIST = [1, 2, 3, 4, 5, 6, 7, 0, 8]
 const INITIAL_STATE = makeStateFromList(INITIAL_LIST)
-
+const EMPTY_QUEUE: Array<Step> = []
 const reducer = (state: PuzzleState, action: Action): PuzzleState => {
   switch (action.type) {
     case 'START':
+      if (state.status === Status.Running) return state
       return {
         ...state,
+        solutionQueue: solvePuzzle(state).answer?.state.path || [],
         status: Status.Running,
       }
     case 'STOP':
       return {
         ...state,
+        solutionQueue: EMPTY_QUEUE,
         status: Status.Stopped,
       }
     case 'RESET':
       return {
         ...state,
+        solutionQueue: EMPTY_QUEUE,
         gridData: makeGridDataFromList(state.initialList),
         status: Status.Stopped,
       }
     case 'MOVE':
+      if (state.status === Status.Running) return state
       return {
         ...state,
         gridData: updateGridData(action.payload, state.gridData),
       }
+    case 'RUN_SOLUTION':
+      return state.solutionQueue.length
+        ? {
+          ...state,
+          solutionQueue: state.solutionQueue.slice(1),
+          gridData: updateGridData(state.solutionQueue[0], state.gridData),
+        }
+        : {
+          ...state,
+          status: Status.Stopped,
+        }
     default:
       return state
   }
@@ -150,26 +174,20 @@ export const usePuzzle = () => {
   const [state, dispatch] = useReducer(reducer, INITIAL_STATE)
 
   useEffect(() => {
-    const queue = state.movesQueue
+    if (state.status !== Status.Running) return
     let timer: number | null
 
     const tick = () => {
-      if (!queue.length) return
-      dispatch({ type: 'MOVE', payload: queue[0] })
-      timer = setTimeout(tick, 500)
+      dispatch({ type: 'RUN_SOLUTION' })
+      timer = setTimeout(tick, 250)
     }
 
-    if (queue.length) {
-      tick()
-    }
-    else {
-      dispatch({ type: 'STOP' })
-    }
+    tick()
 
     return () => {
       if (timer) clearTimeout(timer)
     }
-  }, [state.movesQueue])
+  }, [state.status])
 
   return [state, dispatch] as const
 }
