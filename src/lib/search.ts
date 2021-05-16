@@ -59,8 +59,16 @@ const zeroPairFromGrid = (grid: Grid): Pair => {
         for(let j = 0; j <= MIN_BOUND; j++)
             if (grid[i][j] == 0) return [i, j]
 
-    return null
+    // I'm considering that is never occour
+    return [0,0]
 }
+
+const rowFromList = (list: Array<number>, start: number): Row => [list[start], list[start+1], list[start+2]]
+export const gridFromList = (list: Array<number>): Grid => [rowFromList(list, 0), rowFromList(list, 3), rowFromList(list, 6)]
+
+// For types
+const copyRow = (row: Row): Row => [row[0], row[1], row[2]]
+const copyGrid = (grid: Grid): Grid => [copyRow(grid[0]), copyRow(grid[1]), copyRow(grid[2])]
 
 const STEPS: Array<[Step, Pair]> = [
     [Step.Up, [-1, 0]],
@@ -124,19 +132,19 @@ const search = (initialState: State, data: DataStructure) => {
         const [oldX, oldY] = currentState.zeroPosition
 
         // Swap
-        const nextGrid = currentState.grid.map(row => row.map(x => x))
+        const nextGrid = copyGrid(currentState.grid)
         const tmp = nextGrid[nextX][nextY]
         nextGrid[nextX][nextY] = nextGrid[oldX][oldY]
         nextGrid[oldX][oldY] = tmp
 
         const nextState: State = {
+            ...currentState,
             key: keyFromGrid(currentState.grid),
             zeroPosition: nextZeroPosition,
             path: [step, ...currentState.path],
             depth: currentState.depth + 1,
             cost: data.cost(currentState),
-            grid: nextGrid,
-            ...currentState
+            grid: nextGrid
         }
 
         data.add(nextState)
@@ -171,7 +179,7 @@ const manhattanDistance = (grid: Grid) => {
 const compareStates = (sa: State, sb: State) => sa.cost < sb.cost
 
 const makeGreedyDS = (): DataStructure => {
-  const data = new Heap<State>(compareStates)
+  const data = Heap<State>(compareStates)
 
   return {
       extract: data.extract,
@@ -188,8 +196,8 @@ const makeAStarDS = (): DataStructure => ({
     cost: (state: State) => manhattanDistance(state.grid) + state.depth
 })
 
-const Greedy = (initialState: State) => perf(initialState, makeGreedyDS())
-const AStar = (initialState: State) => perf(initialState, makeAStarDS())
+export const Greedy = (initialState: State) => perf(initialState, makeGreedyDS())
+export const AStar = (initialState: State) => perf(initialState, makeAStarDS())
 
 const perf = (initialState: State, dataStructure: DataStructure) => {
   const t0 = window.performance.now()
@@ -197,9 +205,4 @@ const perf = (initialState: State, dataStructure: DataStructure) => {
   const t1 = window.performance.now()
 
   return { time: t1 - t0, answer }
-}
-
-export {
-    AStar,
-    Greedy
 }
