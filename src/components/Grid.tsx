@@ -4,8 +4,8 @@ import Square from './Square'
 
 type GridProps = {
   data: GridData
-  className?: string
   squareShift: number
+  className?: string
 }
 
 const Grid = ({ className, data, squareShift }: GridProps) => (

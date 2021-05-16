@@ -6,7 +6,7 @@ type SquareData = {
 
 export type GridData = Array<SquareData>
 
-export const gridFromList = (list: Array<number>): GridData =>
+export const makeStateFromList = (list: Array<number>): GridData =>
   list.map((digit, i) => ({
       digit,
       position: [Math.trunc(i / 3), Math.trunc(i % 3)],
