@@ -1,9 +1,9 @@
 import styled from 'styled-components'
 
 type ButtonProps = {
-    icon: string
-    onClick: () => void
-    className?: string
+  icon: string
+  onClick: () => void
+  className?: string
 }
 
 const Button = ({ icon, className, onClick }: ButtonProps) => (

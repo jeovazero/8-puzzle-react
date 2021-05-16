@@ -10,10 +10,10 @@ export type Pair = [number, number]
 type Key = string
 
 export enum Step {
-    Up = '^',
-    Left = '<',
-    Down = 'v',
-    Right = '>'
+  Up = '^',
+  Left = '<',
+  Down = 'v',
+  Right = '>',
 }
 
 type Row = [number, number, number]
@@ -29,51 +29,62 @@ type State = {
 }
 
 export const makeSearchState = (grid: Grid): State => ({
-    cost: 0,
-    path: [],
-    depth: 0,
-    key: keyFromGrid(grid),
-    zeroPosition: zeroPairFromGrid(grid),
-    grid
+  cost: 0,
+  path: [],
+  depth: 0,
+  key: keyFromGrid(grid),
+  zeroPosition: zeroPairFromGrid(grid),
+  grid,
 })
 
 const isFinalState = (state: State) => state.key === '123456780'
 
 const MAX_BOUND = 2
 const MIN_BOUND = 0
-const BOUNDS_RANGE: Pair = [MIN_BOUND,MAX_BOUND]
+const BOUNDS_RANGE: Pair = [MIN_BOUND, MAX_BOUND]
 
-const isWithinRange = ([x,y]: Pair, t: number) => x <= t && t <= y
+const isWithinRange = ([x, y]: Pair, t: number) => x <= t && t <= y
 
-export const isValidPosition = ([x,y]: Pair) => isWithinRange(BOUNDS_RANGE, x) && isWithinRange(BOUNDS_RANGE, y)
+export const isValidPosition = ([x, y]: Pair) =>
+  isWithinRange(BOUNDS_RANGE, x) && isWithinRange(BOUNDS_RANGE, y)
 
 const keyFromGrid = (grid: Grid) => {
-    let key = ''
-    for(const row of grid)
-        for(const n of row) key += n.toString()
-    return key
+  let key = ''
+  for (const row of grid) {
+    for (const n of row) key += n.toString()
+  }
+  return key
 }
-    
+
 const zeroPairFromGrid = (grid: Grid): Pair => {
-    for(let i = 0; i <= MAX_BOUND; i++)
-        for(let j = 0; j <= MAX_BOUND; j++)
-            if (grid[i][j] == 0) return [i, j]
+  for (let i = 0; i <= MAX_BOUND; i++) {
+    for (let j = 0; j <= MAX_BOUND; j++) {
+      if (grid[i][j] == 0) return [i, j]
+    }
+  }
 
-    throw Error('Wrong Grid')
+  throw Error('Wrong Grid')
 }
 
-const rowFromList = (list: Array<number>, start: number): Row => [list[start], list[start+1], list[start+2]]
-export const gridFromList = (list: Array<number>): Grid => [rowFromList(list, 0), rowFromList(list, 3), rowFromList(list, 6)]
+const rowFromList = (
+  list: Array<number>,
+  start: number,
+): Row => [list[start], list[start + 1], list[start + 2]]
+export const gridFromList = (
+  list: Array<number>,
+): Grid => [rowFromList(list, 0), rowFromList(list, 3), rowFromList(list, 6)]
 
 // For types
 const copyRow = (row: Row): Row => [row[0], row[1], row[2]]
-const copyGrid = (grid: Grid): Grid => [copyRow(grid[0]), copyRow(grid[1]), copyRow(grid[2])]
+const copyGrid = (
+  grid: Grid,
+): Grid => [copyRow(grid[0]), copyRow(grid[1]), copyRow(grid[2])]
 
 const STEPS: Array<[Step, Pair]> = [
-    [Step.Up, [-1, 0]],
-    [Step.Left, [0, -1]],
-    [Step.Down, [1, 0]],
-    [Step.Right, [0, 1]]
+  [Step.Up, [-1, 0]],
+  [Step.Left, [0, -1]],
+  [Step.Down, [1, 0]],
+  [Step.Right, [0, 1]],
 ]
 
 type DataStructure = {
@@ -84,9 +95,12 @@ type DataStructure = {
   cost(state: State): number
 }
 
-export const pairEq = ([a,b]: Pair, [c,d]: Pair) => a == c && b == d
-export const pairSum = ([x1,y1]: Pair, [x2,y2]: Pair): Pair => [x1 + x2, y1 + y2]
-const pairDiff = ([x1,y1]: Pair, [x2,y2]: Pair): Pair => [x1 - x2, y1 - y2]
+export const pairEq = ([a, b]: Pair, [c, d]: Pair) => a == c && b == d
+export const pairSum = (
+  [x1, y1]: Pair,
+  [x2, y2]: Pair,
+): Pair => [x1 + x2, y1 + y2]
+const pairDiff = ([x1, y1]: Pair, [x2, y2]: Pair): Pair => [x1 - x2, y1 - y2]
 
 const search = (initialState: State, data: DataStructure) => {
   data.add(initialState)
@@ -113,14 +127,15 @@ const search = (initialState: State, data: DataStructure) => {
         boundaryNodesCount,
         maxDepth,
         visitedNodes,
-        maxBoundary
+        maxBoundary,
       }
     }
 
     if (visitedStates.has(currentState.key)) {
       visitedNodes++
       continue
-    } else {
+    }
+    else {
       visitedStates.add(currentState.key)
     }
 
@@ -138,12 +153,12 @@ const search = (initialState: State, data: DataStructure) => {
         nextGrid[oldX][oldY] = tmp
 
         const nextState: State = {
-            ...currentState,
-            key: keyFromGrid(nextGrid),
-            zeroPosition: nextZeroPosition,
-            path: [...currentState.path, step],
-            depth: currentState.depth + 1,
-            grid: nextGrid
+          ...currentState,
+          key: keyFromGrid(nextGrid),
+          zeroPosition: nextZeroPosition,
+          path: [...currentState.path, step],
+          depth: currentState.depth + 1,
+          grid: nextGrid,
         }
 
         data.add({ ...nextState, cost: data.cost(nextState) })
@@ -151,7 +166,7 @@ const search = (initialState: State, data: DataStructure) => {
         boundaryNodesCount++
       }
     })
-  } while (!data.isEmpty());
+  } while (!data.isEmpty())
   console.log(data.isEmpty(), { boundaryNodesCount })
   return null
 }
@@ -160,20 +175,22 @@ const search = (initialState: State, data: DataStructure) => {
 // 1 2 3  | [0,0] [0,1] [0,2]
 // 4 5 6  | [1,0] [1,1] [1,2]
 // 7 8 0  | [2,0] [2,1] [2,2]
-const finalPosition: Array<Pair> = [[2,2]]
-for (let i = 0; i < 8; i++)
+const finalPosition: Array<Pair> = [[2, 2]]
+for (let i = 0; i < 8; i++) {
   finalPosition.push([Math.floor(i / 3), i % 3])
+}
 
 const manhattanDistance = (grid: Grid) => {
-    let sum = 0
-    for(let i = 0; i < MAX_BOUND; i++)
-        for(let j = 0; j < MAX_BOUND; j++) {
-            const currentNumber = grid[i][j]
-            const finalPos = finalPosition[currentNumber]
-            const pairResult = pairDiff(finalPos, [i, j])
-            sum += (Math.abs(pairResult[0]) + Math.abs(pairResult[1]))
-        }
-    return sum
+  let sum = 0
+  for (let i = 0; i < MAX_BOUND; i++) {
+    for (let j = 0; j < MAX_BOUND; j++) {
+      const currentNumber = grid[i][j]
+      const finalPos = finalPosition[currentNumber]
+      const pairResult = pairDiff(finalPos, [i, j])
+      sum += (Math.abs(pairResult[0]) + Math.abs(pairResult[1]))
+    }
+  }
+  return sum
 }
 
 const compareStates = (sa: State, sb: State) => sa.cost < sb.cost
@@ -182,21 +199,22 @@ const makeGreedyDS = (): DataStructure => {
   const data = Heap<State>(compareStates)
 
   return {
-      extract: data.extract,
-      add: data.add,
-      cost: (state: State) => manhattanDistance(state.grid),
-      size: data.size,
-      isEmpty: () => data.size() === 0
+    extract: data.extract,
+    add: data.add,
+    cost: (state: State) => manhattanDistance(state.grid),
+    size: data.size,
+    isEmpty: () => data.size() === 0,
   }
 }
 
 // ( ͡° ͜ʖ ͡°)
 const makeAStarDS = (): DataStructure => ({
-    ...makeGreedyDS(),
-    cost: (state: State) => manhattanDistance(state.grid) + state.depth
+  ...makeGreedyDS(),
+  cost: (state: State) => manhattanDistance(state.grid) + state.depth,
 })
 
-export const Greedy = (initialState: State) => perf(initialState, makeGreedyDS())
+export const Greedy = (initialState: State) =>
+  perf(initialState, makeGreedyDS())
 export const AStar = (initialState: State) => perf(initialState, makeAStarDS())
 
 const perf = (initialState: State, dataStructure: DataStructure) => {
