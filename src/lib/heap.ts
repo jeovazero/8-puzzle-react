@@ -31,12 +31,15 @@ export function Heap<Data>(compare: Compare<Data>) {
       let firstChild = firstChildOf(parent)
       let secondChild = firstChild + 1
 
-      if (firstChild < len && compareNodes(secondChild, firstChild)) firstChild++
+      if (firstChild < len && compareNodes(secondChild, firstChild)) {
+        firstChild++
+      }
 
       if (compareNodes(firstChild, parent)) {
         swap(firstChild, parent)
         parent = firstChild
-      } else break
+      }
+      else break
     }
   }
 
@@ -46,7 +49,8 @@ export function Heap<Data>(compare: Compare<Data>) {
     queue[b - 1] = x
   }
 
-  const compareNodes = (a: number, b: number) => compare(queue[a - 1], queue[b - 1])
+  const compareNodes = (a: number, b: number) =>
+    compare(queue[a - 1], queue[b - 1])
 
   return {
     makeHeap: () => {
@@ -68,6 +72,6 @@ export function Heap<Data>(compare: Compare<Data>) {
     print: () => {
       console.log(queue)
     },
-    size: () => queue.length
+    size: () => queue.length,
   }
 }

@@ -14,8 +14,9 @@ const Grid = ({ className, data, squareShift }: GridProps) => (
       <Square
         isTransparent={digit === 0}
         key={digit}
-        delta={{ x: delta[0], y: delta[1]}}
-        shift={squareShift}>
+        delta={{ x: delta[0], y: delta[1] }}
+        shift={squareShift}
+      >
         {digit}
       </Square>
     ))}

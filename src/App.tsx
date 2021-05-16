@@ -1,12 +1,12 @@
-import styled from 'styled-components'
-import { Theme } from './Theme'
-import { usePuzzle } from './puzzle'
-import Grid from '@components/Grid'
-import Button from '@components/Button'
 import playIcon from '@assets/icons/play.svg'
 import resetIcon from '@assets/icons/reset.svg'
-import {useEffect} from 'react'
-import {Step} from '@lib/search'
+import Button from '@components/Button'
+import Grid from '@components/Grid'
+import { Step } from '@lib/search'
+import { useEffect } from 'react'
+import styled from 'styled-components'
+import { usePuzzle } from './puzzle'
+import { Theme } from './Theme'
 
 const AppWrapper = styled.div`
   with: 100%;
@@ -31,35 +31,36 @@ export default () => {
 
   console.log({ g: state.gridData })
   useEffect(() => {
-      const keyListener = (event: KeyboardEvent) => {
-          console.log(event.key)
-        const code = event.code
-        switch(code) {
-            case 'Down':
-            case 'ArrowDown':
-                dispatch({ type: 'MOVE', payload: Step.Down })
-                break;
-            case 'Up':
-            case 'ArrowUp':
-                dispatch({ type: 'MOVE', payload: Step.Up })
-                break;
-            case 'Left':
-            case 'ArrowLeft':
-                dispatch({ type: 'MOVE', payload: Step.Left })
-                break;
-            case 'Right':
-            case 'ArrowRight':
-                dispatch({ type: 'MOVE', payload: Step.Right })
-                break;
-            default: break;
-        }
+    const keyListener = (event: KeyboardEvent) => {
+      console.log(event.key)
+      const code = event.code
+      switch (code) {
+        case 'Down':
+        case 'ArrowDown':
+          dispatch({ type: 'MOVE', payload: Step.Down })
+          break
+        case 'Up':
+        case 'ArrowUp':
+          dispatch({ type: 'MOVE', payload: Step.Up })
+          break
+        case 'Left':
+        case 'ArrowLeft':
+          dispatch({ type: 'MOVE', payload: Step.Left })
+          break
+        case 'Right':
+        case 'ArrowRight':
+          dispatch({ type: 'MOVE', payload: Step.Right })
+          break
+        default:
+          break
       }
+    }
 
-      document.addEventListener('keydown', keyListener)
+    document.addEventListener('keydown', keyListener)
 
-      return () => {
-        document.removeEventListener('keydown', keyListener)
-      }
+    return () => {
+      document.removeEventListener('keydown', keyListener)
+    }
   }, [])
   const start = () => {
   }
