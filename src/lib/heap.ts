@@ -48,25 +48,26 @@ export function Heap<Data>(compare: Compare<Data>) {
 
   const compareNodes = (a: number, b: number) => compare(queue[a - 1], queue[b - 1])
 
-  this.makeHeap = () => {
-    for (let i = Math.floor(queue.length / 2); i >= 1; i--) shakeDown(i)
+  return {
+    makeHeap: () => {
+      for (let i = Math.floor(queue.length / 2); i >= 1; i--) shakeDown(i)
+    },
+    extract: () => {
+      const max = queue[0] // not safe
+      const last = queue.pop()
+      if (queue.length > 0 && last) {
+        queue[0] = last
+      }
+      shakeDown(1)
+      return max
+    },
+    add: (x: Data) => {
+      queue.push(x)
+      shakeUp()
+    },
+    print: () => {
+      console.log(queue)
+    },
+    size: () => queue.length
   }
-
-  this.extract = () => {
-    const max = queue[0] // not safe
-    const last = queue.pop()
-    if (queue.length > 0) {
-      queue[0] = last
-    }
-    shakeDown(1)
-    return max
-  }
-  this.add = (x: Data) => {
-    queue.push(x)
-    shakeUp()
-  }
-  this.print = () => {
-    console.log(queue)
-  }
-  this.size = () => queue.length
 }
