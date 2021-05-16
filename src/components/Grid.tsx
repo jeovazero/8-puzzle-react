@@ -10,7 +10,7 @@ type GridProps = {
 
 const Grid = ({ className, data, squareShift }: GridProps) => (
   <div className={className}>
-    {data.map(({ digit, delta }) => (
+    {data.data.map(({ digit, delta }) => (
       <Square
         isTransparent={digit === 0}
         key={digit}

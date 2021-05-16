@@ -5,7 +5,7 @@
 
 import { Heap } from './heap'
 
-type Pair = [number, number]
+export type Pair = [number, number]
 
 type Key = string
 
@@ -28,8 +28,8 @@ type State = {
   grid: Grid
 }
 
-export const makeState = (grid: Grid) => ({
-    const: 0,
+export const makeSearchState = (grid: Grid): State => ({
+    cost: 0,
     path: [],
     depth: 0,
     key: keyFromGrid(grid),
@@ -45,7 +45,7 @@ const BOUNDS_RANGE: Pair = [MIN_BOUND,MAX_BOUND]
 
 const isWithinRange = ([x,y]: Pair, t: number) => x <= t && t <= y
 
-const isValidPosition = ([x,y]: Pair) => isWithinRange(BOUNDS_RANGE, x) && isWithinRange(BOUNDS_RANGE, y)
+export const isValidPosition = ([x,y]: Pair) => isWithinRange(BOUNDS_RANGE, x) && isWithinRange(BOUNDS_RANGE, y)
 
 const keyFromGrid = (grid: Grid) => {
     let key = ''
@@ -55,12 +55,11 @@ const keyFromGrid = (grid: Grid) => {
 }
     
 const zeroPairFromGrid = (grid: Grid): Pair => {
-    for(let i = 0; i <= MIN_BOUND; i++)
-        for(let j = 0; j <= MIN_BOUND; j++)
+    for(let i = 0; i <= MAX_BOUND; i++)
+        for(let j = 0; j <= MAX_BOUND; j++)
             if (grid[i][j] == 0) return [i, j]
 
-    // I'm considering that is never occour
-    return [0,0]
+    throw Error('Wrong Grid')
 }
 
 const rowFromList = (list: Array<number>, start: number): Row => [list[start], list[start+1], list[start+2]]
@@ -85,7 +84,8 @@ type DataStructure = {
   cost(state: State): number
 }
 
-const pairSum = ([x1,y1]: Pair, [x2,y2]: Pair): Pair => [x1 + x2, y1 + y2]
+export const pairEq = ([a,b]: Pair, [c,d]: Pair) => a == c && b == d
+export const pairSum = ([x1,y1]: Pair, [x2,y2]: Pair): Pair => [x1 + x2, y1 + y2]
 const pairDiff = ([x1,y1]: Pair, [x2,y2]: Pair): Pair => [x1 - x2, y1 - y2]
 
 const search = (initialState: State, data: DataStructure) => {
@@ -139,20 +139,20 @@ const search = (initialState: State, data: DataStructure) => {
 
         const nextState: State = {
             ...currentState,
-            key: keyFromGrid(currentState.grid),
+            key: keyFromGrid(nextGrid),
             zeroPosition: nextZeroPosition,
-            path: [step, ...currentState.path],
+            path: [...currentState.path, step],
             depth: currentState.depth + 1,
-            cost: data.cost(currentState),
             grid: nextGrid
         }
 
-        data.add(nextState)
+        data.add({ ...nextState, cost: data.cost(nextState) })
 
         boundaryNodesCount++
       }
     })
   } while (!data.isEmpty());
+  console.log(data.isEmpty(), { boundaryNodesCount })
   return null
 }
 
@@ -166,8 +166,8 @@ for (let i = 0; i < 8; i++)
 
 const manhattanDistance = (grid: Grid) => {
     let sum = 0
-    for(let i = 0; i < MIN_BOUND; i++)
-        for(let j = 0; j < MIN_BOUND; j++) {
+    for(let i = 0; i < MAX_BOUND; i++)
+        for(let j = 0; j < MAX_BOUND; j++) {
             const currentNumber = grid[i][j]
             const finalPos = finalPosition[currentNumber]
             const pairResult = pairDiff(finalPos, [i, j])

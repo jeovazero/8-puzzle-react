@@ -55,7 +55,7 @@ export function Heap<Data>(compare: Compare<Data>) {
     extract: () => {
       const max = queue[0] // not safe
       const last = queue.pop()
-      if (queue.length > 0 && last) {
+      if (queue.length > 0 && last !== undefined) {
         queue[0] = last
       }
       shakeDown(1)
