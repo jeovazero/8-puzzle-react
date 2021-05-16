@@ -6,32 +6,22 @@
   "author": "jeovazero",
   "license": "MIT",
   "scripts": {
-    "start": "webpack-dev-server --progress --mode development --open",
-    "prod": "webpack --mode production",
-    "prettier": "prettier-standard 'src/**/*.js'",
-    "lint:fix": "standard --fix 'src/**/*.js'"
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "serve": "vite preview"
   },
   "devDependencies": {
-    "@babel/core": "^7.1.2",
-    "@babel/preset-env": "^7.1.0",
-    "@babel/preset-react": "^7.0.0",
-    "babel-loader": "^8.0.4",
-    "babel-plugin-styled-components": "^1.8.0",
-    "file-loader": "^2.0.0",
-    "html-webpack-plugin": "^3.2.0",
-    "prettier-standard": "^9.1.1",
-    "standard": "^12.0.1",
-    "styled-components": "^4.0.2",
-    "webpack": "^4.23.1",
-    "webpack-cli": "^3.1.2",
-    "webpack-dev-server": "^3.1.10"
+    "@types/react": "17.0.0",
+    "@types/react-dom": "17.0.0",
+    "@vitejs/plugin-react-refresh": "1.3.1",
+    "typescript": "4.1.2",
+    "vite": "2.3.0"
   },
   "dependencies": {
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
-    "react-redux": "^5.0.7",
-    "react-spring": "^7.1.0",
-    "redux": "^4.0.1",
-    "redux-thunk": "^2.3.0"
+    "@types/styled-components": "5.1.9",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "react-spring": "7.1.0",
+    "styled-components": "5.3.0"
   }
 }
