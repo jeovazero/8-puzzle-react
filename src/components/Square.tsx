@@ -1,16 +1,24 @@
 import styled from 'styled-components'
-import React from 'react'
-import { STYLE } from '@/styles.js'
 import { animated, Spring, interpolate, config } from 'react-spring'
 
-const Square = ({ children, className, style, delta, shift }) => {
-  return (
+type SquareProps = {
+  children: React.ReactNode
+  className?: string
+  delta: {
+    x: number
+    y: number
+  }
+  shift: number
+  isTransparent?: boolean
+}
+
+const Square = ({ children, className, delta, shift, isTransparent }: SquareProps) => (
     <Spring config={config.gentle} native to={delta}>
       {({ x, y }) => (
         <animated.div
           className={className}
+          data-is-transparent={ isTransparent ? '' : undefined }
           style={{
-            ...style,
             transform: interpolate(
               [x, y],
               (x, y) => `translate3d(${x * shift}px,${y * shift}px, 0)`
@@ -22,7 +30,6 @@ const Square = ({ children, className, style, delta, shift }) => {
       )}
     </Spring>
   )
-}
 
 const SquareStyled = styled(Square)`
   width: 80px;
@@ -30,9 +37,7 @@ const SquareStyled = styled(Square)`
   box-sizing: border-box;
   margin: 5px;
   background-color: white;
-  color: ${STYLE.bg};
-  opacity: ${props => (props.transparent ? 0 : 1)};
-  text-align: center;
+  color: var(--primary);
   font-weight: bolder;
   font-family: 'Viga', sans-serif;
   font-size: 3.6em;
@@ -43,6 +48,10 @@ const SquareStyled = styled(Square)`
     line-height: 90 px;
     display: block;
   }
+  &[data-is-transparent] {
+    opacity: 0;
+  }
+  text-align: center;
 `
 
 export default SquareStyled
