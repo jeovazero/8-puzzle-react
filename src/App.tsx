@@ -1,10 +1,16 @@
-import playIcon from '@assets/icons/play.svg'
-import resetIcon from '@assets/icons/reset.svg'
-import Button from '@components/Button'
-import Grid from '@components/Grid'
-import { Step } from '@lib/search'
 import { useEffect } from 'react'
 import styled from 'styled-components'
+
+import playIcon from '@assets/icons/play.svg'
+import resetIcon from '@assets/icons/reset.svg'
+import titleImg from '@assets/imgs/title.svg'
+
+import Button from '@components/Button'
+import Grid from '@components/Grid'
+import Title from '@components/Title'
+
+import { Step } from '@lib/search'
+
 import { usePuzzle } from './puzzle'
 import { Theme } from './Theme'
 
@@ -75,6 +81,9 @@ export default () => {
   return (
     <Theme>
       <AppWrapper>
+          <Title img={titleImg}>
+            Solved with A* Algorithm
+            </Title>
         <Grid data={state.gridData} squareShift={90} />
         <ButtonContainer>
           <Button icon={playIcon} onClick={start} />
