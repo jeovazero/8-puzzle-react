@@ -3,24 +3,55 @@ import styled from 'styled-components'
 
 import playIcon from '@assets/icons/play.svg'
 import resetIcon from '@assets/icons/reset.svg'
+import hintImg from '@assets/imgs/hint.svg'
 import titleImg from '@assets/imgs/title.svg'
 
 import Button from '@components/Button'
 import Grid from '@components/Grid'
 import Title from '@components/Title'
+import Hint from '@components/Hint'
 
 import { Step } from '@lib/search'
 
 import { usePuzzle } from './puzzle'
 import { Theme } from './Theme'
 
+const Content = styled.div`
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  margin-left: 100px;
+  align-items: center;
+`
+
 const AppWrapper = styled.div`
-  with: 100%;
   height: 100vh;
   background-color: var(--primaryLight);
   display: flex;
-  align-items: center;
-  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  ${Hint} {
+    margin-top: 140px;
+  }
+
+  @media (max-width: 640px) {
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+
+    ${Content} {
+      margin-left: 0px;
+      width: 100%;
+    }
+
+    ${Hint} {
+      padding: 0 100px;
+      clear: both;
+      width: 100px;
+      margin-top: 20px;
+    }
+  }
 `
 
 const ButtonContainer = styled.div`
@@ -81,14 +112,19 @@ export default () => {
   return (
     <Theme>
       <AppWrapper>
+        <Content>
           <Title img={titleImg}>
             Solved with A* Algorithm
-            </Title>
-        <Grid data={state.gridData} squareShift={90} />
-        <ButtonContainer>
-          <Button icon={playIcon} onClick={start} />
-          <Button icon={resetIcon} onClick={reset} />
-        </ButtonContainer>
+          </Title>
+          <Grid data={state.gridData} squareShift={90} />
+          <ButtonContainer>
+            <Button icon={playIcon} onClick={start} />
+            <Button icon={resetIcon} onClick={reset} />
+          </ButtonContainer>
+        </Content>
+        <Hint img={hintImg}>
+          Moves
+        </Hint>
       </AppWrapper>
     </Theme>
   )
