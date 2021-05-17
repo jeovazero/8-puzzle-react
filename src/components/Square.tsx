@@ -1,4 +1,4 @@
-import { animated, config, interpolate, Spring } from 'react-spring'
+import { animated, useSpring } from '@react-spring/web'
 import styled from 'styled-components'
 
 type SquareProps = {
@@ -14,24 +14,19 @@ type SquareProps = {
 
 const Square = (
   { children, className, delta, shift, isTransparent }: SquareProps,
-) => (
-  <Spring config={config.gentle} native to={delta}>
-    {({ x, y }) => (
+) => {
+    const { x, y } = useSpring({ x: delta.x * shift, y: delta.y * shift })
+
+    return (
       <animated.div
         className={className}
         data-is-transparent={isTransparent ? '' : undefined}
-        style={{
-          transform: interpolate(
-            [x, y],
-            (x, y) => `translate3d(${x * shift}px,${y * shift}px, 0)`,
-          ),
-        }}
+        style={{ x, y }}
       >
         <span>{children || '-'}</span>
       </animated.div>
-    )}
-  </Spring>
-)
+    )
+}
 
 const SquareStyled = styled(Square)`
   width: 80px;
