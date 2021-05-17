@@ -39,7 +39,7 @@ const SquareStyled = styled(Square)`
   box-sizing: border-box;
   margin: 5px;
   background-color: white;
-  color: var(--primary);
+  color: var(--primaryLight);
   font-weight: bolder;
   font-family: 'Viga', sans-serif;
   font-size: 3.6em;

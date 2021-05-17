@@ -1,9 +1,9 @@
 import styled from 'styled-components'
 
 type TitleProps = {
-    className?: string
-    img: string
-    children: React.ReactNode
+  className?: string
+  img?: string
+  children: React.ReactText
 }
 
 const Title = ({ className, img, children }: TitleProps) => (
