@@ -28,26 +28,27 @@ const ButtonContainer = styled.div`
 
 export default () => {
   const [state, dispatch] = usePuzzle()
-  console.log({ state })
 
   useEffect(() => {
     const keyListener = (event: KeyboardEvent) => {
-      console.log(event.key)
-      const code = event.code
-      switch (code) {
+      switch (event.code) {
         case 'Down':
+        case 'KeyS':
         case 'ArrowDown':
           dispatch({ type: 'MOVE', payload: Step.Down })
           break
         case 'Up':
+        case 'KeyW':
         case 'ArrowUp':
           dispatch({ type: 'MOVE', payload: Step.Up })
           break
         case 'Left':
+        case 'KeyA':
         case 'ArrowLeft':
           dispatch({ type: 'MOVE', payload: Step.Left })
           break
         case 'Right':
+        case 'KeyD':
         case 'ArrowRight':
           dispatch({ type: 'MOVE', payload: Step.Right })
           break
@@ -62,6 +63,7 @@ export default () => {
       document.removeEventListener('keydown', keyListener)
     }
   }, [])
+
   const start = () => {
     dispatch({ type: 'START' })
   }
