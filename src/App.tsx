@@ -8,8 +8,8 @@ import titleImg from '@assets/imgs/title.svg'
 
 import Button from '@components/Button'
 import Grid from '@components/Grid'
-import Title from '@components/Title'
 import Hint from '@components/Hint'
+import Title from '@components/Title'
 
 import { Step } from '@lib/search'
 

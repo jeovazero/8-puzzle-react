@@ -15,17 +15,17 @@ type SquareProps = {
 const Square = (
   { children, className, delta, shift, isTransparent }: SquareProps,
 ) => {
-    const { x, y } = useSpring({ x: delta.x * shift, y: delta.y * shift })
+  const { x, y } = useSpring({ x: delta.x * shift, y: delta.y * shift })
 
-    return (
-      <animated.div
-        className={className}
-        data-is-transparent={isTransparent ? '' : undefined}
-        style={{ x, y }}
-      >
-        <span>{children || '-'}</span>
-      </animated.div>
-    )
+  return (
+    <animated.div
+      className={className}
+      data-is-transparent={isTransparent ? '' : undefined}
+      style={{ x, y }}
+    >
+      <span>{children || '-'}</span>
+    </animated.div>
+  )
 }
 
 const SquareStyled = styled(Square)`
