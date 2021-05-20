@@ -29,7 +29,7 @@ export function Heap<Data>(compare: Compare<Data>) {
 
     while (parent <= lenHalf) {
       let firstChild = firstChildOf(parent)
-      let secondChild = firstChild + 1
+      const secondChild = firstChild + 1
 
       if (firstChild < len && compareNodes(secondChild, firstChild)) {
         firstChild++

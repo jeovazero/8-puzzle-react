@@ -1,5 +1,6 @@
 import { gridFromList } from '@lib/grid'
-import { isValidPosition, Pair, pairEq, pairSum } from '@lib/pair'
+import type { Pair} from '@lib/pair';
+import { isValidPosition, pairEq, pairSum } from '@lib/pair'
 import {
   AStar,
   makeSearchState,
@@ -129,7 +130,7 @@ const reducer = (state: PuzzleState, action: Action): PuzzleState => {
       if (state.status === Status.Running) return state
       return {
         ...state,
-        solutionQueue: solvePuzzle(state).answer?.path || EMPTY_QUEUE,
+        solutionQueue: solvePuzzle(state).answer?.path ?? EMPTY_QUEUE,
         status: Status.Running,
       }
     case 'STOP':

@@ -3,9 +3,11 @@
  * MIT Licensed
  */
 
-import { copyGrid, Grid, manhattanDistance } from './grid'
+import type { Grid} from './grid';
+import { copyGrid, manhattanDistance } from './grid'
 import { Heap } from './heap'
-import { isValidPosition, MAX_BOUND, Pair, pairSum } from './pair'
+import type { Pair} from './pair';
+import { isValidPosition, MAX_BOUND, pairSum } from './pair'
 
 // Key
 type Key = string

@@ -23,7 +23,7 @@ const Square = (
       data-is-transparent={isTransparent ? '' : undefined}
       style={{ x, y }}
     >
-      <span>{children || '-'}</span>
+      <span>{children ?? '-'}</span>
     </animated.div>
   )
 }
