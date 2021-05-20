@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { GridData } from '../puzzle'
+import type { GridData } from '../puzzle'
 import Square from './Square'
 
 type GridProps = {

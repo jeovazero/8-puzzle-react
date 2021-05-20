@@ -1,4 +1,5 @@
-import { MAX_BOUND, Pair, pairDiff } from './pair'
+import type { Pair} from './pair';
+import { MAX_BOUND, pairDiff } from './pair'
 
 // Grid and Row
 type Row = [number, number, number]

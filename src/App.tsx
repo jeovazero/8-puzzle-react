@@ -99,7 +99,7 @@ export default () => {
     return () => {
       document.removeEventListener('keydown', keyListener)
     }
-  }, [])
+  }, [dispatch])
 
   const start = () => {
     dispatch({ type: 'START' })
