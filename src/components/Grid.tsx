@@ -30,6 +30,7 @@ const GridSquares = styled(Grid)`
   background-color: var(--primary);
   display: flex;
   flex-wrap: wrap;
+  transition: background-color 1.25s ease;
 `
 
 export default GridSquares

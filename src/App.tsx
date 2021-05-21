@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 
 import playIcon from '@assets/icons/play.svg'
@@ -14,7 +14,9 @@ import Title from '@components/Title'
 import { Step } from '@lib/search'
 
 import { usePuzzle } from './puzzle'
-import { Theme } from './Theme'
+import { Theme, ThemeOption } from './Theme'
+import type { ThemeColor } from './tokens'
+import { THEME_COLORS } from './tokens'
 
 const Content = styled.div`
   width: 400px;
@@ -30,6 +32,7 @@ const AppWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  transition: background-color 1.25s ease;
 
   ${Hint} {
     margin-top: 140px;
@@ -63,8 +66,30 @@ const ButtonContainer = styled.div`
   }
 `
 
+const Colors = styled.div`
+  display: flex;
+  justify-content: center;
+  background-color: white;
+  border-radius: 8px;
+  margin-bottom: 24px;
+  padding: 2px;
+  box-shadow: 0px 2px 1px 1px #aaa;
+`
+
+function useHandler<T>(value: T) {
+  const [state, setState] = useState<T>(value)
+
+  const handler = useCallback((value: T) =>
+    () => {
+      setState(value)
+    }, [])
+
+  return [state, handler] as const
+}
+
 export default () => {
   const [state, dispatch] = usePuzzle()
+  const [theme, handleTheme] = useHandler<ThemeColor>('purple')
 
   useEffect(() => {
     const keyListener = (event: KeyboardEvent) => {
@@ -110,12 +135,21 @@ export default () => {
   }
 
   return (
-    <Theme>
+    <Theme data-theme={theme}>
       <AppWrapper>
         <Content>
           <Title img={titleImg}>
             Solved with A* Algorithm
           </Title>
+          <Colors>
+            {THEME_COLORS.map(color =>
+              <ThemeOption
+                data-color={color}
+                data-selected={theme === color ? '' : undefined}
+                onClick={handleTheme(color)}
+              />
+            )}
+          </Colors>
           <Grid data={state.gridData} squareShift={90} />
           <ButtonContainer>
             <Button icon={playIcon} onClick={start} />

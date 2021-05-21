@@ -13,7 +13,7 @@ type SquareProps = {
 }
 
 const Square = (
-  { children, className, delta, shift, isTransparent }: SquareProps,
+  { children, className, delta, shift, isTransparent }: SquareProps
 ) => {
   const { x, y } = useSpring({ x: delta.x * shift, y: delta.y * shift })
 
@@ -35,6 +35,7 @@ const SquareStyled = styled(Square)`
   margin: 5px;
   background-color: white;
   color: var(--primaryLight);
+  transition: color 1.25s ease;
   font-weight: bolder;
   font-family: 'Viga', sans-serif;
   font-size: 3.6em;
