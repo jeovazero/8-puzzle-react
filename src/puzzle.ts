@@ -1,10 +1,10 @@
 import { gridFromList } from '@lib/grid'
-import type { Pair} from '@lib/pair';
+import type { Pair } from '@lib/pair'
 import { isValidPosition, pairEq, pairSum } from '@lib/pair'
 import {
   AStar,
   makeSearchState,
-  Step,
+  Step
 } from '@lib/search'
 import { useEffect, useReducer } from 'react'
 
@@ -24,7 +24,7 @@ type Action =
 
 enum Status {
   Running,
-  Stopped,
+  Stopped
 }
 
 type SquareData = {
@@ -49,15 +49,15 @@ const makeGridDataFromList = (list: Array<number>): GridData => ({
   data: list.map((digit, i) => ({
     digit,
     position: [Math.trunc(i % 3), Math.trunc(i / 3)],
-    delta: [0, 0],
-  })),
+    delta: [0, 0]
+  }))
 })
 
 const makeStateFromList = (list: Array<number>): PuzzleState => ({
   status: Status.Stopped,
   solutionQueue: [],
   gridData: makeGridDataFromList(list),
-  initialList: list,
+  initialList: list
 })
 
 // Relative to zero position
@@ -66,7 +66,7 @@ const MOVES: Record<Step, Pair> = {
   [Step.Down]: [0, -1],
   [Step.Up]: [0, 1],
   [Step.Left]: [1, 0],
-  [Step.Right]: [-1, 0],
+  [Step.Right]: [-1, 0]
 }
 
 const pairToIndex = ([x, y]: Pair): number => y * 3 + x
@@ -89,22 +89,22 @@ const updateGridData = (step: Step, grid: GridData): GridData => {
       ...zeroSquare,
       delta: pairSum(
         zeroSquare.delta,
-        deltaFromPairs(nextZeroPosition, zeroSquare.position),
+        deltaFromPairs(nextZeroPosition, zeroSquare.position)
       ),
-      position: nextZeroPosition,
+      position: nextZeroPosition
     }
     nextData[nextIndex] = {
       ...nextSquare,
       delta: pairSum(
         nextSquare.delta,
-        deltaFromPairs(zeroSquare.position, nextSquare.position),
+        deltaFromPairs(zeroSquare.position, nextSquare.position)
       ),
-      position: zeroSquare.position,
+      position: zeroSquare.position
     }
 
     return {
       ...grid,
-      data: nextData,
+      data: nextData
     }
   }
 
@@ -131,37 +131,37 @@ const reducer = (state: PuzzleState, action: Action): PuzzleState => {
       return {
         ...state,
         solutionQueue: solvePuzzle(state).answer?.path ?? EMPTY_QUEUE,
-        status: Status.Running,
+        status: Status.Running
       }
     case 'STOP':
       return {
         ...state,
         solutionQueue: EMPTY_QUEUE,
-        status: Status.Stopped,
+        status: Status.Stopped
       }
     case 'RESET':
       return {
         ...state,
         solutionQueue: EMPTY_QUEUE,
         gridData: makeGridDataFromList(state.initialList),
-        status: Status.Stopped,
+        status: Status.Stopped
       }
     case 'MOVE':
       if (state.status === Status.Running) return state
       return {
         ...state,
-        gridData: updateGridData(action.payload, state.gridData),
+        gridData: updateGridData(action.payload, state.gridData)
       }
     case 'RUN_SOLUTION':
       return state.solutionQueue.length
         ? {
           ...state,
           solutionQueue: state.solutionQueue.slice(1),
-          gridData: updateGridData(state.solutionQueue[0], state.gridData),
+          gridData: updateGridData(state.solutionQueue[0], state.gridData)
         }
         : {
           ...state,
-          status: Status.Stopped,
+          status: Status.Stopped
         }
     default:
       return state
