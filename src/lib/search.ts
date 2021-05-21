@@ -3,10 +3,10 @@
  * MIT Licensed
  */
 
-import type { Grid} from './grid';
+import type { Grid } from './grid'
 import { copyGrid, manhattanDistance } from './grid'
 import { Heap } from './heap'
-import type { Pair} from './pair';
+import type { Pair } from './pair'
 import { isValidPosition, MAX_BOUND, pairSum } from './pair'
 
 // Key
@@ -25,7 +25,7 @@ export enum Step {
   Up = '^',
   Left = '<',
   Down = 'v',
-  Right = '>',
+  Right = '>'
 }
 
 // col X row
@@ -33,7 +33,7 @@ const STEPS: Array<[Step, Pair]> = [
   [Step.Up, [1, 0]],
   [Step.Left, [0, 1]],
   [Step.Down, [-1, 0]],
-  [Step.Right, [0, -1]],
+  [Step.Right, [0, -1]]
 ]
 
 // State
@@ -54,7 +54,7 @@ export const makeSearchState = (grid: Grid): State => ({
   depth: 0,
   key: keyFromGrid(grid),
   zeroPosition: zeroPairFromGrid(grid),
-  grid,
+  grid
 })
 
 const zeroPairFromGrid = (grid: Grid): Pair => {
@@ -113,7 +113,7 @@ const search = (initialState: State, data: DataStructure) => {
           zeroPosition: nextZeroPosition,
           path: [...currentState.path, step],
           depth: currentState.depth + 1,
-          grid: nextGrid,
+          grid: nextGrid
         }
 
         data.add({ ...nextState, cost: data.cost(nextState) })
@@ -133,14 +133,14 @@ const makeGreedyDS = (): DataStructure => {
     add: data.add,
     cost: (state: State) => manhattanDistance(state.grid),
     size: data.size,
-    isEmpty: () => data.size() === 0,
+    isEmpty: () => data.size() === 0
   }
 }
 
 // ( ͡° ͜ʖ ͡°)
 const makeAStarDS = (): DataStructure => ({
   ...makeGreedyDS(),
-  cost: (state: State) => manhattanDistance(state.grid) + state.depth,
+  cost: (state: State) => manhattanDistance(state.grid) + state.depth
 })
 
 // Greedy

@@ -72,6 +72,6 @@ export function Heap<Data>(compare: Compare<Data>) {
     print: () => {
       console.log(queue)
     },
-    size: () => queue.length,
+    size: () => queue.length
   }
 }

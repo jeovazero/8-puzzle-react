@@ -1,4 +1,4 @@
-import type { Pair} from './pair';
+import type { Pair } from './pair'
 import { MAX_BOUND, pairDiff } from './pair'
 
 // Grid and Row
@@ -7,18 +7,18 @@ export type Grid = [Row, Row, Row]
 
 export const rowFromList = (
   list: Array<number>,
-  start: number,
+  start: number
 ): Row => [list[start], list[start + 1], list[start + 2]]
 
 export const gridFromList = (
-  list: Array<number>,
+  list: Array<number>
 ): Grid => [rowFromList(list, 0), rowFromList(list, 3), rowFromList(list, 6)]
 
 // For types
 const copyRow = (row: Row): Row => [row[0], row[1], row[2]]
 
 export const copyGrid = (
-  grid: Grid,
+  grid: Grid
 ): Grid => [copyRow(grid[0]), copyRow(grid[1]), copyRow(grid[2])]
 
 // Final position in the grid for each number

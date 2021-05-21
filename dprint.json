@@ -13,7 +13,7 @@
     "bracePosition": "sameLineUnlessHanging",
     "singleBodyPosition": "maintain",
     "nextControlFlowPosition": "nextLine",
-    "trailingCommas": "onlyMultiLine",
+    "trailingCommas": "never",
     "operatorPosition": "nextLine",
     "preferHanging": false,
     "preferSingleLine": false,

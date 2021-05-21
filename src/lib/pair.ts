@@ -5,12 +5,12 @@ export const pairEq = ([a, b]: Pair, [c, d]: Pair) => a == c && b == d
 
 export const pairSum = (
   [x1, y1]: Pair,
-  [x2, y2]: Pair,
+  [x2, y2]: Pair
 ): Pair => [x1 + x2, y1 + y2]
 
 export const pairDiff = (
   [x1, y1]: Pair,
-  [x2, y2]: Pair,
+  [x2, y2]: Pair
 ): Pair => [x1 - x2, y1 - y2]
 
 export const MAX_BOUND = 2
