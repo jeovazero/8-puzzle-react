@@ -1,14 +1,12 @@
 import { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 
-import playIcon from '@assets/icons/play.svg'
-import resetIcon from '@assets/icons/reset.svg'
 import hintImg from '@assets/imgs/hint.svg'
 import titleImg from '@assets/imgs/title.svg'
 
-import Button from '@components/Button'
 import Grid from '@components/Grid'
 import Hint from '@components/Hint'
+import IconButton from '@components/IconButton'
 import Title from '@components/Title'
 
 import { Step } from '@lib/search'
@@ -144,6 +142,7 @@ export default () => {
           <Colors>
             {THEME_COLORS.map(color =>
               <ThemeOption
+                key={color}
                 data-color={color}
                 data-selected={theme === color ? '' : undefined}
                 onClick={handleTheme(color)}
@@ -152,8 +151,8 @@ export default () => {
           </Colors>
           <Grid data={state.gridData} squareShift={90} />
           <ButtonContainer>
-            <Button icon={playIcon} onClick={start} />
-            <Button icon={resetIcon} onClick={reset} />
+            <IconButton type='play' onClick={start} />
+            <IconButton type='reset' onClick={reset} />
           </ButtonContainer>
         </Content>
         <Hint img={hintImg}>

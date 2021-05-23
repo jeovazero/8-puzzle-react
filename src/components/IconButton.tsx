@@ -1,18 +1,20 @@
 import styled from 'styled-components'
 
-type ButtonProps = {
-  icon: string
+type IconButtonProps = {
+  type: 'play' | 'reset'
   onClick: () => void
   className?: string
 }
 
-const Button = ({ icon, className, onClick }: ButtonProps) => (
+const IconButton = ({ type, className, onClick }: IconButtonProps) => (
   <div className={className} onClick={onClick}>
-    <img src={icon} />
+    <svg>
+      <use href={`#${type}`} />
+    </svg>
   </div>
 )
 
-const ButtonStyled = styled(Button)`
+const IconButtonStyled = styled(IconButton)`
   background-color: white;
   width: 70px;
   height: 50px;
@@ -20,8 +22,11 @@ const ButtonStyled = styled(Button)`
   align-items: center;
   justify-content: center;
   border-radius: 4px;
-  img {
-    width: 30%;
+  svg {
+    width: 24px;
+    height: 24px;
+    fill: var(--primaryLight);
+    transition: fill 1.25s ease;
   }
   :hover {
     cursor: pointer;
@@ -29,4 +34,4 @@ const ButtonStyled = styled(Button)`
   }
 `
 
-export default ButtonStyled
+export default IconButtonStyled
