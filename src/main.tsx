@@ -1,3 +1,4 @@
+import 'vite-plugin-svg-icons/register'
 import ReactDOM from 'react-dom'
 import { createGlobalStyle } from 'styled-components'
 import App from './App'
