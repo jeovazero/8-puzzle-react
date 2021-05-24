@@ -1,11 +1,9 @@
 import { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 
-import hintImg from '@assets/imgs/hint.svg'
-
 import Grid from '@components/Grid'
-import Hint from '@components/Hint'
 import IconButton from '@components/IconButton'
+import Keys from '@components/Keys'
 import Ribbon from '@components/Ribbon'
 
 import { Step } from '@lib/search'
@@ -23,6 +21,23 @@ const Content = styled.div`
   align-items: center;
 `
 
+const Stack = styled.div`
+  display: flex;
+  flex-direction: column;
+  & > * + * {
+    margin-top: 12px;
+  }
+`
+
+const Head = styled.h3`
+  text-align: center;
+  color: white;
+  font-family: var(--fontFamilyPrimary);
+  margin: 0;
+  font-weight: normal;
+  font-size: 1.25rem;
+`
+
 const AppWrapper = styled.div`
   height: 100vh;
   background-color: var(--primaryLight);
@@ -35,13 +50,13 @@ const AppWrapper = styled.div`
     margin: 24px 0 0 0;
   }
 
-  ${Hint} {
+  ${Stack} {
     margin-top: 140px;
   }
 
   p {
     margin: 12px 0;
-    font-family: var(--fontFamily);
+    font-family: var(--fontFamilyPrimary);
     color: white;
     font-size: 1rem;
   }
@@ -54,13 +69,6 @@ const AppWrapper = styled.div`
     ${Content} {
       margin-left: 0px;
       width: 100%;
-    }
-
-    ${Hint} {
-      padding: 0 100px;
-      clear: both;
-      width: 100px;
-      margin-top: 20px;
     }
   }
 `
@@ -80,7 +88,7 @@ const Colors = styled.div`
   background-color: white;
   border-radius: 8px;
   margin-bottom: 12px;
-  padding: 2px;
+  padding: 4px;
   box-shadow: 0px 2px 1px 1px #aaa;
 `
 
@@ -148,6 +156,7 @@ export default () => {
         <Content>
           <Ribbon>8-Puzzle</Ribbon>
           <p>Solved with the A* Algorithm</p>
+          <Grid data={state.gridData} squareShift={90} />
           <Colors>
             {THEME_COLORS.map(color =>
               <ThemeOption
@@ -158,15 +167,16 @@ export default () => {
               />
             )}
           </Colors>
-          <Grid data={state.gridData} squareShift={90} />
           <ButtonContainer>
             <IconButton type='play' onClick={start} />
             <IconButton type='reset' onClick={reset} />
           </ButtonContainer>
         </Content>
-        <Hint img={hintImg}>
-          Moves
-        </Hint>
+        <Stack>
+          <Head>Controls</Head>
+          <Keys up='W' left='A' right='D' down='S' />
+          <Keys up='▲' left='◄' right='►' down='▼' />
+        </Stack>
       </AppWrapper>
     </Theme>
   )

@@ -103,7 +103,7 @@ const RibbonStyled = styled(Ribbon)`
     overflow: hidden;
   }
   .title-wrapper div {
-    font-family: var(--fontFamily);
+    font-family: var(--fontFamilySecondary);
     font-size: 2.125rem;
     color: var(--primary);
   }
