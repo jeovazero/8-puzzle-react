@@ -51,6 +51,7 @@ export const ThemeOption = styled.div`
 export const Theme = styled.main`
   --primary: #560F80;
   --primaryLight: #781AAE;
-  --fontFamily: ${FONT_FAMILY};
+  --fontFamilyPrimary: ${FONT_FAMILY.primary};
+  --fontFamilySecondary: ${FONT_FAMILY.secondary};
   ${themeCss}
 `

@@ -1,4 +1,7 @@
-export const FONT_FAMILY = '\'Pattaya\', sans-serif'
+export const FONT_FAMILY = {
+  primary: '\'Viga\', sans-serif',
+  secondary: '\'Pattaya\', sans-serif'
+} as const
 
 export const THEME = {
   purple: {
