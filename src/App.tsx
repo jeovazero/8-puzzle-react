@@ -2,12 +2,11 @@ import { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 
 import hintImg from '@assets/imgs/hint.svg'
-import titleImg from '@assets/imgs/title.svg'
 
 import Grid from '@components/Grid'
 import Hint from '@components/Hint'
 import IconButton from '@components/IconButton'
-import Title from '@components/Title'
+import Ribbon from '@components/Ribbon'
 
 import { Step } from '@lib/search'
 
@@ -32,8 +31,19 @@ const AppWrapper = styled.div`
   justify-content: center;
   transition: background-color 1.25s ease;
 
+  ${Ribbon} {
+    margin: 24px 0 0 0;
+  }
+
   ${Hint} {
     margin-top: 140px;
+  }
+
+  p {
+    margin: 12px 0;
+    font-family: var(--fontFamily);
+    color: white;
+    font-size: 1rem;
   }
 
   @media (max-width: 640px) {
@@ -69,7 +79,7 @@ const Colors = styled.div`
   justify-content: center;
   background-color: white;
   border-radius: 8px;
-  margin-bottom: 24px;
+  margin-bottom: 12px;
   padding: 2px;
   box-shadow: 0px 2px 1px 1px #aaa;
 `
@@ -136,9 +146,8 @@ export default () => {
     <Theme data-theme={theme}>
       <AppWrapper>
         <Content>
-          <Title img={titleImg}>
-            Solved with A* Algorithm
-          </Title>
+          <Ribbon>8-Puzzle</Ribbon>
+          <p>Solved with the A* Algorithm</p>
           <Colors>
             {THEME_COLORS.map(color =>
               <ThemeOption
