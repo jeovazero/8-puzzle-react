@@ -29,7 +29,7 @@ const Stack = styled.div`
   }
 `
 
-const Head = styled.h3`
+const Head = styled.h2`
   text-align: center;
   color: white;
   font-family: var(--fontFamilyPrimary);
@@ -61,6 +61,24 @@ const AppWrapper = styled.div`
     font-size: 1rem;
   }
 
+  h3 {
+    padding: 0;
+    font-family: var(--fontFamilySecondary);
+    font-size: 1.3125rem;
+    font-weight: normal;
+    color: white;
+    transition: opacity 0.5s ease, max-height 0.5s ease, margin 0.25s ease;
+    max-height: 0px;
+    overflow: hidden;
+    margin: 0px;
+    opacity: 0;
+    &[data-show] {
+       opacity: 1;
+       max-height: 35px;
+       margin: 16px;
+    }
+  }
+
   @media (max-width: 640px) {
     flex-direction: column;
     justify-content: flex-start;
@@ -69,6 +87,10 @@ const AppWrapper = styled.div`
     ${Content} {
       margin-left: 0px;
       width: 100%;
+    }
+
+    ${Stack} {
+      margin-top: 0px;
     }
   }
 `
@@ -150,6 +172,7 @@ export default () => {
     dispatch({ type: 'RESET' })
   }
 
+  // state.isFinalState &&
   return (
     <Theme data-theme={theme}>
       <AppWrapper>
@@ -157,6 +180,7 @@ export default () => {
           <Ribbon>8-Puzzle</Ribbon>
           <p>Solved with the A* Algorithm</p>
           <Grid data={state.gridData} squareShift={90} />
+          {<h3 data-show={state.isFinalState ? '' : undefined}>Complete!</h3>}
           <Colors>
             {THEME_COLORS.map(color =>
               <ThemeOption
