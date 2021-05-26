@@ -53,6 +53,13 @@ const makeGridDataFromList = (list: Array<number>): GridData => ({
   }))
 })
 
+const gridToList = (grid: GridData) => {
+  const list = Array(grid.data.length).fill(0)
+  grid.data.forEach(({ position: [x, y], digit }) => list[y * 3 + x] = digit)
+
+  return list
+}
+
 const makeStateFromList = (list: Array<number>): PuzzleState => ({
   status: Status.Stopped,
   solutionQueue: [],
@@ -124,6 +131,7 @@ const INITIAL_LIST = [8, 3, 2, 7, 4, 5, 1, 6, 0]
 // const INITIAL_LIST = [1, 2, 3, 4, 5, 6, 7, 0, 8]
 const INITIAL_STATE = makeStateFromList(INITIAL_LIST)
 const EMPTY_QUEUE: Array<Step> = []
+
 const reducer = (state: PuzzleState, action: Action): PuzzleState => {
   switch (action.type) {
     case 'START':
@@ -170,6 +178,7 @@ const reducer = (state: PuzzleState, action: Action): PuzzleState => {
 
 export const usePuzzle = () => {
   const [state, dispatch] = useReducer(reducer, INITIAL_STATE)
+  const isFinalState = gridToList(state.gridData).join('') === '123456780'
 
   useEffect(() => {
     if (state.status !== Status.Running) return
@@ -187,5 +196,5 @@ export const usePuzzle = () => {
     }
   }, [state.status])
 
-  return [state, dispatch] as const
+  return [{ ...state, isFinalState }, dispatch] as const
 }
