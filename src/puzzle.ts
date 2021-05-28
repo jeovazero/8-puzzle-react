@@ -7,6 +7,7 @@ import {
   Step
 } from '@lib/search'
 import { useEffect, useReducer } from 'react'
+import puzzleData from './puzzles.json'
 
 type PuzzleState = {
   status: Status
@@ -41,8 +42,8 @@ export type GridData = {
 const zeroIndexFromList = (list: Array<number>): number => {
   const index = list.findIndex(el => el === 0)
 
-  if (index) return index
-  throw Error('Invalida list. The a "zero" element is required')
+  if (index >= 0) return index
+  throw Error(`Invalid list. The a "zero" element is required. ${list}`)
 }
 const makeGridDataFromList = (list: Array<number>): GridData => ({
   zeroIndex: zeroIndexFromList(list),
@@ -127,8 +128,14 @@ const solvePuzzle = (state: PuzzleState) => {
   return ans
 }
 
-const INITIAL_LIST = [8, 3, 2, 7, 4, 5, 1, 6, 0]
-// const INITIAL_LIST = [1, 2, 3, 4, 5, 6, 7, 0, 8]
+const getPuzzle = () => {
+  const len = puzzleData.length
+  const random = Math.floor(Math.random() * len)
+
+  return puzzleData[random]
+}
+
+const INITIAL_LIST = getPuzzle()
 const INITIAL_STATE = makeStateFromList(INITIAL_LIST)
 const EMPTY_QUEUE: Array<Step> = []
 
