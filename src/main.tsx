@@ -1,5 +1,5 @@
 import 'vite-plugin-svg-icons/register'
-import React from 'react'
+import { StrictMode } from 'react'
 import ReactDOM from 'react-dom'
 import { createGlobalStyle } from 'styled-components'
 import App from './App'
@@ -12,9 +12,9 @@ const GlobalStyle = createGlobalStyle`
 `
 
 ReactDOM.render(
-  <React.StrictMode>
+  <StrictMode>
     <App />
     <GlobalStyle />
-  </React.StrictMode>,
+  </StrictMode>,
   document.getElementById('root')
 )
