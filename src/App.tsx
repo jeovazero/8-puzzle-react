@@ -172,7 +172,10 @@ export default () => {
     dispatch({ type: 'RESET' })
   }
 
-  // state.isFinalState &&
+  const random = () => {
+    dispatch({ type: 'RANDOM' })
+  }
+
   return (
     <Theme data-theme={theme}>
       <AppWrapper>
@@ -194,6 +197,7 @@ export default () => {
           <ButtonContainer>
             <IconButton type='play' onClick={start} />
             <IconButton type='reset' onClick={reset} />
+            <IconButton type='random' onClick={random} />
           </ButtonContainer>
         </Content>
         <Stack>

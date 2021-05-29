@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 type IconButtonProps = {
-  type: 'play' | 'reset'
+  type: 'play' | 'reset' | 'random'
   onClick: () => void
   className?: string
 }
