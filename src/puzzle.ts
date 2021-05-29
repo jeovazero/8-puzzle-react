@@ -14,11 +14,13 @@ type PuzzleState = {
   gridData: GridData
   solutionQueue: Array<Step>
   initialList: Array<number>
+  currentList: Array<number>
 }
 
 type Action =
   | { type: 'START' }
   | { type: 'RESET' }
+  | { type: 'RANDOM' }
   | { type: 'STOP' }
   | { type: 'MOVE'; payload: Step }
   | { type: 'RUN_SOLUTION' }
@@ -40,16 +42,21 @@ export type GridData = {
 }
 
 const zeroIndexFromList = (list: Array<number>): number => {
-  const index = list.findIndex(el => el === 0)
+  const index = list.findIndex(elem => elem === 0)
 
   if (index >= 0) return index
   throw Error(`Invalid list. The a "zero" element is required. ${list}`)
 }
+
+const positionFromIndex = (
+  index: number
+): Pair => [Math.trunc(index % 3), Math.trunc(index / 3)]
+
 const makeGridDataFromList = (list: Array<number>): GridData => ({
   zeroIndex: zeroIndexFromList(list),
-  data: list.map((digit, i) => ({
+  data: list.map((digit, index) => ({
     digit,
-    position: [Math.trunc(i % 3), Math.trunc(i / 3)],
+    position: positionFromIndex(index),
     delta: [0, 0]
   }))
 })
@@ -65,8 +72,48 @@ const makeStateFromList = (list: Array<number>): PuzzleState => ({
   status: Status.Stopped,
   solutionQueue: [],
   gridData: makeGridDataFromList(list),
-  initialList: list
+  initialList: list,
+  currentList: list
 })
+
+const nextGridDataFromList = (
+  grid: GridData,
+  list: Array<number>
+): GridData => {
+  const len = grid.data.length
+
+  const nextRandomGrid: Pair[] = Array(len)
+
+  let digit
+  for (let index = 0; index < len; index++) {
+    digit = list[index]
+    nextRandomGrid[digit] = positionFromIndex(index)
+  }
+
+  const nextData = grid.data.map(({ digit }, index) => {
+    const initialPosition: Pair = positionFromIndex(index)
+    const nextPosition = nextRandomGrid[digit]
+    const delta = deltaFromPairs(nextPosition, initialPosition)
+
+    return {
+      delta,
+      digit,
+      position: nextPosition
+    }
+  })
+
+  return {
+    ...grid,
+    data: nextData
+  }
+}
+
+const randomPuzzle = () => {
+  const len = puzzleData.length
+  const random = Math.floor(Math.random() * len)
+
+  return puzzleData[random]
+}
 
 // Relative to zero position
 // row x col
@@ -128,18 +175,12 @@ const solvePuzzle = (state: PuzzleState) => {
   return ans
 }
 
-const getPuzzle = () => {
-  const len = puzzleData.length
-  const random = Math.floor(Math.random() * len)
-
-  return puzzleData[random]
-}
-
-const INITIAL_LIST = getPuzzle()
+const INITIAL_LIST = randomPuzzle()
 const INITIAL_STATE = makeStateFromList(INITIAL_LIST)
 const EMPTY_QUEUE: Array<Step> = []
 
 const reducer = (state: PuzzleState, action: Action): PuzzleState => {
+  let randomList
   switch (action.type) {
     case 'START':
       if (state.status === Status.Running) return state
@@ -158,7 +199,20 @@ const reducer = (state: PuzzleState, action: Action): PuzzleState => {
       return {
         ...state,
         solutionQueue: EMPTY_QUEUE,
-        gridData: makeGridDataFromList(state.initialList),
+        gridData: nextGridDataFromList(
+          makeGridDataFromList(state.initialList),
+          state.currentList
+        ),
+        status: Status.Stopped
+      }
+    case 'RANDOM':
+      randomList = randomPuzzle()
+
+      return {
+        ...state,
+        currentList: randomList,
+        solutionQueue: EMPTY_QUEUE,
+        gridData: nextGridDataFromList(state.gridData, randomList),
         status: Status.Stopped
       }
     case 'MOVE':
