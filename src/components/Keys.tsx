@@ -24,7 +24,7 @@ const KeysStyled = styled(Keys)`
   flex-direction: column;
   align-items: center;
   font-family: var(--fontFamilyPrimary);
-  color: var(--primaryLight);
+  color: var(--primary);
   transition: color 1.25s ease;
   font-weight: bold;
   .keys__key {
