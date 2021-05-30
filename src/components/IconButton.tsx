@@ -1,16 +1,16 @@
 import styled from 'styled-components'
+import type { IconProps } from './Icon'
+import { Icon } from './Icon'
 
 type IconButtonProps = {
-  type: 'play' | 'reset' | 'random'
+  type: IconProps['type']
   onClick: () => void
   className?: string
 }
 
 const IconButton = ({ type, className, onClick }: IconButtonProps) => (
   <div className={className} onClick={onClick}>
-    <svg>
-      <use href={`#${type}`} />
-    </svg>
+    <Icon type={type} />
   </div>
 )
 
@@ -22,7 +22,7 @@ const IconButtonStyled = styled(IconButton)`
   align-items: center;
   justify-content: center;
   border-radius: 4px;
-  svg {
+  ${Icon} {
     width: 24px;
     height: 24px;
     fill: var(--primaryLight);
