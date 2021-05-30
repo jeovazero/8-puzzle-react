@@ -3,8 +3,6 @@ name: CI
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
 
 jobs:
   build:
@@ -13,14 +11,19 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+
       - uses: actions/setup-node@v2
         with:
           node-version: '12'
-      - name: Installs the dependencies
+
+      - name: Install the dependencies
         run: yarn
-      - name: Runs the type checker
+
+      - name: Run the type checker
         run: yarn tsc
-      - name: Runs the linter
+
+      - name: Run the linter
         run: yarn lint
-      - name: Runs the format checker
+
+      - name: Run the format checker
         run: yarn dprint check
