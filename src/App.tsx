@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 
 import Grid from '@components/Grid'
+import { Icon } from '@components/Icon'
 import IconButton from '@components/IconButton'
 import Keys from '@components/Keys'
 import Ribbon from '@components/Ribbon'
@@ -38,13 +39,64 @@ const Head = styled.h2`
   font-size: 1.25rem;
 `
 
-const AppWrapper = styled.div`
-  height: 100vh;
-  background-color: var(--primaryLight);
+const Footer = styled.footer`
+  margin: auto;
+  padding: 64px 0;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  & > * {
+    margin: 8px auto;
+  }
+  span {
+    color: white;
+  }
+  p {
+    color: hsl(359, 0%, 90%);
+  }
+  a {
+    text-decoration: none;
+    color: hsl(359, 0%, 90%);
+
+    span {
+      display: inline-block;
+    }
+
+    & > span:after {
+      content: '';
+      display: block;
+      width: 90%;
+      margin: auto;
+      height: 0px;
+      border: 1px dashed white;
+    }
+
+    :hover > span:after {
+      border: 1px solid white;
+    }
+  }
+  div > a {
+    display: flex;
+    align-items: center;
+        > * + * {
+      margin-left: 8px;
+    }
+  }
+  ${Icon} {
+    fill: white;
+  }
+`
+
+const KeysContainer = styled.div`
+  & > * + * {
+    margin: 12px auto;
+  }
+`
+
+const ContentWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  transition: background-color 1.25s ease;
 
   ${Ribbon} {
     margin: 24px 0 0 0;
@@ -64,7 +116,6 @@ const AppWrapper = styled.div`
   h3 {
     padding: 0;
     font-family: var(--fontFamilySecondary);
-    font-size: 1.3125rem;
     font-weight: normal;
     color: white;
     transition: opacity 0.5s ease, max-height 0.5s ease, margin 0.25s ease;
@@ -90,9 +141,25 @@ const AppWrapper = styled.div`
     }
 
     ${Stack} {
-      margin-top: 0px;
+      margin-top: 32px;
+    }
+
+    ${KeysContainer} {
+      display: flex;
+
+      & > * {
+        margin: auto 8px;
+      }
     }
   }
+`
+
+const AppWrapper = styled.div`
+  min-height: 100vh;
+  background-color: var(--primaryLight);
+  transition: background-color 1.25s ease;
+  color: white;
+  font-family: var(--fontFamilyPrimary);
 `
 
 const ButtonContainer = styled.div`
@@ -179,32 +246,53 @@ export default () => {
   return (
     <Theme data-theme={theme}>
       <AppWrapper>
-        <Content>
-          <Ribbon>8-Puzzle</Ribbon>
-          <p>Solved with the A* Algorithm</p>
-          <Grid data={state.gridData} squareShift={90} />
-          {<h3 data-show={state.isFinalState ? '' : undefined}>Complete!</h3>}
-          <Colors>
-            {THEME_COLORS.map(color =>
-              <ThemeOption
-                key={color}
-                data-color={color}
-                data-selected={theme === color ? '' : undefined}
-                onClick={handleTheme(color)}
-              />
-            )}
-          </Colors>
-          <ButtonContainer>
-            <IconButton type='play' onClick={start} />
-            <IconButton type='reset' onClick={reset} />
-            <IconButton type='random' onClick={random} />
-          </ButtonContainer>
-        </Content>
-        <Stack>
-          <Head>Controls</Head>
-          <Keys up='W' left='A' right='D' down='S' />
-          <Keys up='▲' left='◄' right='►' down='▼' />
-        </Stack>
+        <ContentWrapper>
+          <Content>
+            <Ribbon>8-Puzzle</Ribbon>
+            <p>Solved with the A* Algorithm</p>
+            <Grid data={state.gridData} squareShift={90} />
+            {<h3 data-show={state.isFinalState ? '' : undefined}>Complete!</h3>}
+            <Colors>
+              {THEME_COLORS.map(color =>
+                <ThemeOption
+                  key={color}
+                  data-color={color}
+                  data-selected={theme === color ? '' : undefined}
+                  onClick={handleTheme(color)}
+                />
+              )}
+            </Colors>
+            <ButtonContainer>
+              <IconButton type='play' onClick={start} />
+              <IconButton type='reset' onClick={reset} />
+              <IconButton type='random' onClick={random} />
+            </ButtonContainer>
+          </Content>
+          <Stack>
+            <Head>Controls</Head>
+            <KeysContainer>
+              <Keys up='W' left='A' right='D' down='S' />
+              <Keys up='▲' left='◄' right='►' down='▼' />
+            </KeysContainer>
+          </Stack>
+        </ContentWrapper>
+        <Footer>
+          <div>
+            <a
+              target='_blank'
+              href='https://github.com/jeovazero/8-puzzle-react'
+            >
+              <Icon type='github-mark' />
+              <span>Source Code</span>
+            </a>
+          </div>
+          <p>
+            A side project by{" "}
+            <a target='_blank' href='https://github.com/jeovazero'>
+              <span>jeovazero</span>
+            </a>
+          </p>
+        </Footer>
       </AppWrapper>
     </Theme>
   )
