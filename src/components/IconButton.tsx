@@ -30,7 +30,7 @@ const IconButtonStyled = styled(IconButton)`
   }
   :hover {
     cursor: pointer;
-    background-color: lightpink;
+    background-color: hsl(68,90%,90%);
   }
 `
 
