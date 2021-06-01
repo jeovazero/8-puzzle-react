@@ -249,7 +249,7 @@ export default () => {
         <ContentWrapper>
           <Content>
             <Ribbon>8-Puzzle</Ribbon>
-            <p>Solved with the A* Algorithm</p>
+            <p>Solved with the A-star Algorithm</p>
             <Grid data={state.gridData} squareShift={90} />
             {<h3 data-show={state.isFinalState ? '' : undefined}>Complete!</h3>}
             <Colors>
