@@ -151,9 +151,7 @@ export const Greedy = (initialState: State) =>
 export const AStar = (initialState: State) => perf(initialState, makeAStarDS())
 
 const perf = (initialState: State, dataStructure: DataStructure) => {
-  const t0 = window.performance.now()
   const answer = search(initialState, dataStructure)
-  const t1 = window.performance.now()
 
-  return { time: t1 - t0, answer }
+  return { answer }
 }
