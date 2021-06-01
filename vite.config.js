@@ -12,7 +12,7 @@ export default defineConfig({
       symbolId: '[name]'
     })
   ],
-  build:{
+  build: {
     target: 'es2015'
   },
   esbuild: {

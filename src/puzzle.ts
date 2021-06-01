@@ -45,7 +45,7 @@ const zeroIndexFromList = (list: Array<number>): number => {
   const index = list.findIndex(elem => elem === 0)
 
   if (index >= 0) return index
-  throw Error(`Invalid list. The a "zero" element is required. ${list}`)
+  throw Error(`Invalid list. The "zero" element is required. ${list}`)
 }
 
 const positionFromIndex = (
