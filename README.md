@@ -6,6 +6,12 @@
   <img src="./demo.gif" width="500" />
 </div>
 
+##
+
+to do:
+
+- [ ] use a zero-runtime css-in-js (remove styled-components)
+
 ## 
 
-Made with :expressionless: by <b>jeovazero</b>
+by <b>jeovazero</b>
