@@ -8,7 +8,7 @@ export default defineConfig({
   plugins: [
     reactRefresh(),
     viteSvgIcons({
-      iconDirs: [path.resolve(process.cwd(), 'src/assets/icons')],
+      iconDirs: [path.resolve(process.cwd(), 'assets/icons')],
       symbolId: '[name]'
     })
   ],
@@ -19,7 +19,7 @@ export default defineConfig({
     alias: {
       '@components': path.resolve(__dirname, '/src/components'),
       '@lib': path.resolve(__dirname, '/src/lib'),
-      '@assets': path.resolve(__dirname, '/src/assets')
+      '@assets': path.resolve(__dirname, '/assets')
     }
   }
 })
