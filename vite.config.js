@@ -12,6 +12,9 @@ export default defineConfig({
       symbolId: '[name]'
     })
   ],
+  build:{
+    target: 'es2015'
+  },
   esbuild: {
     jsxInject: `import React from 'react'`
   },
