@@ -8,14 +8,14 @@ type RibbonProps = {
 const Ribbon = ({ children, className }: RibbonProps) => {
   return (
     <div className={className}>
-      <div className='side-ribbon-wrapper'>
-        <div className='side-ribbon'></div>
-        <div className='side-ribbon'></div>
+      <div className='ribbon__back'>
+        <div className='ribbon__decoration'></div>
+        <div className='ribbon__decoration'></div>
       </div>
-      <div className='main-ribbon'>
-        <div className='shadow'></div>
-        <div className='title-wrapper'>
-          <div>{children}</div>
+      <div className='ribbon__front'>
+        <div className='ribbon__shadow'></div>
+        <div className='ribbon__title'>
+          <h2>{children}</h2>
         </div>
       </div>
     </div>
@@ -30,12 +30,12 @@ const RibbonStyled = styled(Ribbon)`
   width: var(--width);
   padding-top: 15px;
   position: relative;
-  .side-ribbon-wrapper{
+  .ribbon__back{
     display: flex;
     width: 100%;
     justify-content: space-between;
   }
-  .side-ribbon {
+  .ribbon__decoration {
     position: relative;
     display: flex;
 
@@ -59,41 +59,47 @@ const RibbonStyled = styled(Ribbon)`
       border-right-color: #fff0;
     }
   }
-  .main-ribbon {
+  .ribbon__front {
     position: absolute;
     top: 0px;
     left: 0px;
     right: 0px;
     margin: auto;
     width: calc(var(--width) * 0.625);
+
+    div {
+      margin: auto;
+    }
   }
-  .shadow {
+  .ribbon__shadow {
     width: 100%;
     justify-content: space-between;
     display: flex;
     position: absolute;
     bottom: -7px;
     z-index: 1;
+
+    :before {
+      margin-left: 4px;
+      width: calc(var(--height) * 0.7);
+      height: calc(var(--height));
+      background-color: #997687;
+      content: '';
+      display: block;
+      transform: skew(0deg, 24deg);
+    }
+  
+    :after {
+      margin-right: 4px;
+      width: calc(var(--height) * 0.7);
+      height: calc(var(--height));
+      background-color: #997687;
+      content: '';
+      display: block;
+      transform: skew(0deg, -24deg);
+    }
   }
-  .shadow:before {
-    margin-left: 4px;
-    width: calc(var(--height) * 0.7);
-    height: calc(var(--height));
-    background-color: #997687;
-    content: '';
-    display: block;
-    transform: skew(0deg, 24deg);
-  }
-  .shadow:after {
-    margin-right: 4px;
-    width: calc(var(--height) * 0.7);
-    height: calc(var(--height));
-    background-color: #997687;
-    content: '';
-    display: block;
-    transform: skew(0deg, -24deg);
-  }
-  .title-wrapper {
+  .ribbon__title {
     height: var(--height);
     display: flex;
     border-radius: 8px;
@@ -101,14 +107,16 @@ const RibbonStyled = styled(Ribbon)`
     position: relative;
     z-index: 2;
     overflow: hidden;
-  }
-  .title-wrapper div {
-    font-family: var(--fontFamilySecondary);
-    font-size: 2.125rem;
-    color: var(--primary);
-  }
-  .main-ribbon div {
-    margin: auto;
+
+    h2 {
+      pading: 0;
+      margin: auto;
+      font-weight: normal;
+      display: block;
+      font-family: var(--fontFamilySecondary);
+      font-size: 2.125rem;
+      color: var(--primary);
+    }
   }
 `
 
